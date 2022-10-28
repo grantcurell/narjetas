@@ -10,9 +10,12 @@ export const Verbix = {
     conjugationProviders: {
         nb: nbConjugationProvider()
     },
-    etymologyProviders: {}
+    etymologyProviders: {},
+    otherInfoProvider: {},
+    options: {}
 }
 
+// Norwegian providers
 function nbDefinitionProvider() {
 
 }

@@ -3,6 +3,9 @@ import './App.css';
 import { useState } from "react";
 import LookupWord from "./components/LookupWord/LookupWord";
 import SelectLanguage from "./components/SelectLanguage/SelectLanguage";
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
+import LookupWordContainer from "./components/LookupWord/LookupWordContainer";
 
 const testComponentConfiguration = [
   {
@@ -25,7 +28,7 @@ const mapPropsToComponent = ( component, props ) => {
 function App() {
 
   const [globalSettings, setGlobalSettings] = useState({
-    language: "norwegian"
+    language: "Norwegian"
   });
 
   const handleLanguageChange = (newLanguage) => {
@@ -36,10 +39,17 @@ function App() {
   };
 
   return (
-    <div>
+      <div>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path='/' exact element={<LookupWordContainer />} />
+          <Route path='/LookupWord' element={<LookupWordContainer />} />
+        </Routes>
+      </Router>
       <SelectLanguage onChange={handleLanguageChange} />
       Your language is {globalSettings.language}
-    </div>
+      </div>
   );
 }
 

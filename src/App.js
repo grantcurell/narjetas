@@ -6,26 +6,12 @@ import SelectLanguage from "./components/SelectLanguage/SelectLanguage";
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import LookupWordContainer from "./components/LookupWord/LookupWordContainer";
+import { getSupportedConfigs } from './components/Providers/ProviderTemplates/SupportedConfigs';
 
-const testComponentConfiguration = [
-  {
-    type: 'Type1'
-  },
-  {
-    type: 'Type2'
-  },
-  {
-    type: 'Type3'
-  }
-];
-
-const mapPropsToComponent = ( component, props ) => {
-
-  return { ...(component.props || props), type: component.type };
-
-};
 
 function App() {
+
+  const supportedConfigs = getSupportedConfigs();
 
   const [globalSettings, setGlobalSettings] = useState({
     language: "nb"

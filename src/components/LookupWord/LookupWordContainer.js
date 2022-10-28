@@ -1,5 +1,5 @@
 import React from 'react';
-import ConjugationContainer from "../Word/Conjugation/ConjugationContainer"; // required to use JSX
+import ConjugationContainer from "../Word/Conjugation/ConjugationContainer"; 
 
 export default function LookupWordContainer(props) {
 

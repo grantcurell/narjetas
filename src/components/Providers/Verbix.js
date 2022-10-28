@@ -1,9 +1,7 @@
 
 
 export const Verbix = {
-    definitionProviders: {
-        nb: nbDefinitionProvider()
-    },
+    definitionProviders: {},
     exampleProviders: {
         nb: nbExampleProvider()
     },
@@ -16,10 +14,6 @@ export const Verbix = {
 }
 
 // Norwegian providers
-function nbDefinitionProvider() {
-
-}
-
 function nbExampleProvider() {
 
 }

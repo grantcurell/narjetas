@@ -28,7 +28,7 @@ const mapPropsToComponent = ( component, props ) => {
 function App() {
 
   const [globalSettings, setGlobalSettings] = useState({
-    language: "Norwegian"
+    language: "nb"
   });
 
   const handleLanguageChange = (newLanguage) => {
@@ -39,17 +39,17 @@ function App() {
   };
 
   return (
-      <div>
+    <div>
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/' exact element={<LookupWordContainer />} />
-          <Route path='/LookupWord' element={<LookupWordContainer />} />
+          <Route path='/' exact element={<LookupWordContainer language={globalSettings.language}/>} />
+          <Route path='/LookupWord' element={<LookupWordContainer language={globalSettings.language}/>} />
         </Routes>
       </Router>
       <SelectLanguage onChange={handleLanguageChange} />
       Your language is {globalSettings.language}
-      </div>
+    </div>
   );
 }
 

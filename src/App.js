@@ -1,24 +1,44 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from "react";
 import LookupWord from "./components/LookupWord/LookupWord";
+import SelectLanguage from "./components/SelectLanguage/SelectLanguage";
+
+const testComponentConfiguration = [
+  {
+    type: 'Type1'
+  },
+  {
+    type: 'Type2'
+  },
+  {
+    type: 'Type3'
+  }
+];
+
+const mapPropsToComponent = ( component, props ) => {
+
+  return { ...(component.props || props), type: component.type };
+
+};
 
 function App() {
+
+  const [globalSettings, setGlobalSettings] = useState({
+    language: "norwegian"
+  });
+
+  const handleLanguageChange = (newLanguage) => {
+    setGlobalSettings((prevSettings) => ({
+      ...prevSettings,
+      ["language"]: newLanguage
+    }));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <SelectLanguage onChange={handleLanguageChange} />
+      Your language is {globalSettings.language}
     </div>
   );
 }

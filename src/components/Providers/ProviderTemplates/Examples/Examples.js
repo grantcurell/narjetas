@@ -1,2 +1,4 @@
 
-export const NbExample = {};
+export const Examples = {
+    nb: {}
+};

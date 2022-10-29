@@ -1,2 +1,4 @@
 
-export const NbDefinition = [];
+export const Definitions = {
+    nb: {}
+};

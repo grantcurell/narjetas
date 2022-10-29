@@ -6,7 +6,7 @@ import SelectLanguage from "./components/SelectLanguage/SelectLanguage";
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import LookupWordContainer from "./components/LookupWord/LookupWordContainer";
-import { getSupportedConfigs } from './components/Providers/ProviderTemplates/SupportedConfigs';
+import { getSupportedConfigs } from './components/Providers/SupportedConfigs';
 
 
 function App() {

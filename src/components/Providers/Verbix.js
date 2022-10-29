@@ -3,14 +3,15 @@
 export const Verbix = {
     definitionProviders: {},
     exampleProviders: {
-        nb: nbExampleProvider()
+        nb: nbExampleProvider
     },
     conjugationProviders: {
-        nb: nbConjugationProvider()
+        nb: nbConjugationProvider
     },
     etymologyProviders: {},
     otherInfoProvider: {},
-    options: {}
+    options: {},
+    name: "Verbix"
 }
 
 // Norwegian providers

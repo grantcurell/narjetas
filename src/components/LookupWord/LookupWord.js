@@ -28,7 +28,9 @@ export default function LookupWord(props) {
         EtymologyProviders = props.supportedConfigs.EtymologyProviders[props.language]
     }
 
+    const handleClick = (event) => {
 
+    }
 
     // render the component collection
     return(
@@ -59,6 +61,14 @@ export default function LookupWord(props) {
                     <Provider language={props.language} 
                     Providers={EtymologyProviders} 
                     providerType="Etymology"/>
+                    : null
+            }
+            {
+                Object.keys(ConjugationProviders).length > 0 ||
+                Object.keys(DefinitionProviders).length > 0 ||
+                Object.keys(ExampleProviders).length > 0 ||
+                Object.keys(EtymologyProviders).length > 0 ?
+                    <button onClick={handleClick}>Lookup Word</button>
                     : null
             }
         </div>

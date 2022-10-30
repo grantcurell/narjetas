@@ -3,6 +3,10 @@ import Provider from "../Providers/Provider";
 
 export default function LookupWord(props) {
 
+    // This will contain a list of all the handlers for Lookup Word click from
+    // the child providers
+    const onClickHandlers = [];
+
     let ConjugationProviders = {};
     let DefinitionProviders = {};
     let ExampleProviders = {};
@@ -29,7 +33,9 @@ export default function LookupWord(props) {
     }
 
     const handleClick = (event) => {
-
+        onClickHandlers.forEach((callbackFunction) => {
+            callbackFunction();
+        });
     }
 
     // render the component collection
@@ -39,31 +45,36 @@ export default function LookupWord(props) {
                 Object.keys(ConjugationProviders).length > 0 ? 
                     <Provider language={props.language} 
                     Providers={ConjugationProviders} 
-                    providerType="Conjugation"/>
+                    providerType="Conjugation"
+                    onClickHandlers={onClickHandlers}/>
                     : null
             }
             {
                 Object.keys(DefinitionProviders).length > 0 ? 
                     <Provider language={props.language} 
                     Providers={DefinitionProviders} 
-                    providerType="Definition"/>
+                    providerType="Definition"
+                    onClickHandlers={onClickHandlers}/>
                     : null
             }
             {
                 Object.keys(ExampleProviders).length > 0 ? 
                     <Provider language={props.language} 
                     Providers={ExampleProviders} 
-                    providerType="Example"/>
+                    providerType="Example"
+                    onClickHandlers={onClickHandlers}/>
                     : null
             }
             {
                 Object.keys(EtymologyProviders).length > 0 ? 
                     <Provider language={props.language} 
                     Providers={EtymologyProviders} 
-                    providerType="Etymology"/>
+                    providerType="Etymology"
+                    onClickHandlers={onClickHandlers}/>
                     : null
             }
-            {
+            { // Only render the lookup word button if at least one provider
+              // is available
                 Object.keys(ConjugationProviders).length > 0 ||
                 Object.keys(DefinitionProviders).length > 0 ||
                 Object.keys(ExampleProviders).length > 0 ||

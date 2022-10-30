@@ -39,9 +39,13 @@ function App() {
         <Navbar />
         <Routes>
           {['/', '/LookupWord'].map((path) => (
-            <Route path={path} element={supportedConfigs && 
-              <LookupWord language={globalSettings.language}
-                          supportedConfigs={supportedConfigs}/>}
+            <Route path={path} element=
+              {
+                supportedConfigs ? 
+                  <LookupWord language={globalSettings.language}
+                          supportedConfigs={supportedConfigs}/>
+                  : null
+              }
             />
           ))}
         </Routes>

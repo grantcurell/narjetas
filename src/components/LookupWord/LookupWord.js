@@ -28,32 +28,38 @@ export default function LookupWord(props) {
         EtymologyProviders = props.supportedConfigs.EtymologyProviders[props.language]
     }
 
+
+
     // render the component collection
     return(
         <div>
             {
-                Object.keys(ConjugationProviders).length > 0 && 
+                Object.keys(ConjugationProviders).length > 0 ? 
                     <Provider language={props.language} 
                     Providers={ConjugationProviders} 
                     providerType="Conjugation"/>
+                    : null
             }
             {
-                Object.keys(DefinitionProviders).length > 0 && 
+                Object.keys(DefinitionProviders).length > 0 ? 
                     <Provider language={props.language} 
                     Providers={DefinitionProviders} 
                     providerType="Definition"/>
+                    : null
             }
             {
-                Object.keys(ExampleProviders).length > 0 && 
+                Object.keys(ExampleProviders).length > 0 ? 
                     <Provider language={props.language} 
                     Providers={ExampleProviders} 
                     providerType="Example"/>
+                    : null
             }
             {
-                Object.keys(EtymologyProviders).length > 0 && 
+                Object.keys(EtymologyProviders).length > 0 ? 
                     <Provider language={props.language} 
                     Providers={EtymologyProviders} 
                     providerType="Etymology"/>
+                    : null
             }
         </div>
     );

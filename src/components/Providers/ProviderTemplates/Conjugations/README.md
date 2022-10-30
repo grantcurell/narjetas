@@ -1,6 +1,6 @@
 # Conjugations
 
-To add support for a new language's conjugations create a new file with the schema: `<ISO 639-1 code>Conjugation.js`. Ex: `enConjugation.js` for English.
+To add support for a new language's conjugations create a new file with the schema: `<ISO 639-1 code>Provider.js`. Ex: `enConjugation.js` for English.
 
 The conjugations expect the following format:
 

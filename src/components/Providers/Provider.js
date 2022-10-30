@@ -2,7 +2,7 @@
 
 import React from 'react'; // required to use JSX
 import { useState } from "react";
-import '../../../styles/styles.css'
+import '../../styles/styles.css'
 
 export default function Provider(props) {
 
@@ -24,25 +24,25 @@ export default function Provider(props) {
 
     // If there are any checked items then print them
     var checkedItems = checked.length
-        ? checked.reduce((total, item) => {
-            return total + ", " + item;
+    ? checked.reduce((total, item) => {
+        return total + ", " + item;
         })
-        : "";
+    : "";
 
     return (
         <div className="checkList">
-            <div className="title">Conjugation Providers:</div>
-            <div className="list-container">
-                {Object.entries(props.ConjugationProviders).map((item, index) => (
-                    <div key={index}>
-                        <input value={item} type="checkbox" onChange={handleCheck}/>
-                        <span className={isChecked(item)}>{item}</span>
-                    </div>
-                ))}
-            </div>
+          <div className="title">{props.providerType} Providers:</div>
+          <div className="list-container">
+            {Object.entries(props.Providers).map((item, index) => (
+                <div key={index}>
+                <input value={item} type="checkbox" onChange={handleCheck}/>
+                <span className={isChecked(item)}>{item[0]}</span>
+                </div>
+            ))}
+          </div>
             <div>
                 {`Items checked are: ${checkedItems}`}
             </div>
         </div>
-    );
+      );
 };

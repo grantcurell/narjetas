@@ -1,12 +1,12 @@
 import React from 'react';
-import ConjugationContainer from "../Word/Conjugation/ConjugationContainer"; 
+import Provider from "../Providers/Provider";
 
 export default function LookupWord(props) {
 
-    let ConjugationProviders = [];
-    let DefinitionProviders = [];
-    let ExampleProviders = [];
-    let EtymologyProviders = [];
+    let ConjugationProviders = {};
+    let DefinitionProviders = {};
+    let ExampleProviders = {};
+    let EtymologyProviders = {};
 
     // Check to see if the language has any supported conjugation providers
     if (props.language in props.supportedConfigs.ConjugationProviders) {
@@ -31,7 +31,30 @@ export default function LookupWord(props) {
     // render the component collection
     return(
         <div>
-            <ConjugationContainer language={props.language} ConjugationProviders={ConjugationProviders}/>
+            {
+                Object.keys(ConjugationProviders).length > 0 && 
+                    <Provider language={props.language} 
+                    Providers={ConjugationProviders} 
+                    providerType="Conjugation"/>
+            }
+            {
+                Object.keys(DefinitionProviders).length > 0 && 
+                    <Provider language={props.language} 
+                    Providers={DefinitionProviders} 
+                    providerType="Definition"/>
+            }
+            {
+                Object.keys(ExampleProviders).length > 0 && 
+                    <Provider language={props.language} 
+                    Providers={ExampleProviders} 
+                    providerType="Example"/>
+            }
+            {
+                Object.keys(EtymologyProviders).length > 0 && 
+                    <Provider language={props.language} 
+                    Providers={EtymologyProviders} 
+                    providerType="Etymology"/>
+            }
         </div>
     );
 };

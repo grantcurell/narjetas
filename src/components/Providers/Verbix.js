@@ -1,3 +1,5 @@
+import {Conjugation} from "./WordProperties/Conjugations/Conjugations";
+import {Example} from "./WordProperties/Examples/Examples";
 
 export const Verbix = {
     definitionProviders: {},
@@ -9,34 +11,27 @@ export const Verbix = {
     },
     etymologyProviders: {},
     otherInfoProvider: {},
-    capabilities: {
-        canReturnHtml: true
-    },
+    capabilities: {},
     options: {
+        // TODO - do I want to keep this?
         language: 25, // Defines the language that Verbix will use. I know 25 is Norwegian and 20 is English.
     },
     name: "Verbix"
 }
 
 // Norwegian providers
-function nbGetVerbixExample() {
-    return(
-        <h1>Example Hello</h1>
-    );
+async function nbGetVerbixExample(searchWord, setData, setError, setIsLoading) {
+    setIsLoading(false);
+    setError(null);
+    const example = new Example('nb');
+    example.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
+    setData(example);
 }
 
-async function nbGetVerbixConjugation(data, setData, setError, setIsLoading, options = {}) {
-    try {
-        const response = await fetch('https://www.verbix.com/webverbix/go.php?&D1=25&T1=elske', options);
-        const responseData = await response.json();
-    
-        // add transformers here if needed
-    
-        setData(responseData);
-        setIsLoading(false);
-
-    } catch (e) {
-        setError(e);
-        setIsLoading(false);
-    }
-};
+async function nbGetVerbixConjugation(searchWord, setData, setError, setIsLoading) {
+    setIsLoading(false);
+    setError(null);
+    const conjugation = new Conjugation('nb');
+    conjugation.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
+    setData(conjugation);
+}

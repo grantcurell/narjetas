@@ -1,6 +1,6 @@
-import { Conjugations } from "./ProviderTemplates/Conjugations/Conjugations"
-import { Definitions } from "./ProviderTemplates/Definitions/Definitions";
-import { Examples } from "./ProviderTemplates/Examples/Examples";
+import { conjugations } from "./WordProperties/Conjugations/Conjugations"
+import { definitions } from "./WordProperties/Definitions/Definitions";
+import { examples } from "./WordProperties/Examples/Examples";
 import { Verbix } from "./Verbix";
 
 const providers = [
@@ -47,7 +47,7 @@ export function getSupportedConfigs() {
 
             // Check to see if the language, ex: nb, has a matching conjugation
             // template. If it doesn't, that shouldn't happen and is a warning
-            if (conjugationProvider[0] in Conjugations) {
+            if (conjugationProvider[0] in conjugations) {
                 console.info(`Registered conjugation provider ${provider.name} for ${languageNames.of(conjugationProvider[0])}`);
                 
                 // Add the conjugation provider to our list of providers
@@ -64,7 +64,7 @@ export function getSupportedConfigs() {
         Object.entries(provider.exampleProviders).forEach(exampleProvider => {
             // Check to see if the language, ex: nb, has a matching example
             // template. If it doesn't, that shouldn't happen and is a warning
-            if (exampleProvider[0] in Examples) {
+            if (exampleProvider[0] in examples) {
                 console.info(`Registered example provider ${provider.name} for ${languageNames.of(exampleProvider[0])}`);
                 
                 // Add the conjugation provider to our list of providers

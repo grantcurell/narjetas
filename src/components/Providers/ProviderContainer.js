@@ -1,11 +1,11 @@
 import React from 'react';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import '../../styles/styles.css'
 import {Provider} from "./Provider";
 
 export default function ProviderContainer(props) {
 
-    const [checked, setChecked] = useState([Object.entries(props.Providers)]);
+    const [checked, setChecked] = useState([Object.keys(props.Providers)]);
 
     // Add/Remove checked item from list
     const handleCheck = (event) => {
@@ -22,8 +22,7 @@ export default function ProviderContainer(props) {
         checked.includes(item) ? "checked-item" : "not-checked-item";
 
     // If there are any checked items then print them
-    let checkedItems = checked.length
-    ? checked.reduce((total, item) => {
+    let checkedItems = checked.length ? checked.reduce((total, item) => {
         return total + ", " + item;
         })
     : "";
@@ -36,8 +35,8 @@ export default function ProviderContainer(props) {
                 <div className="list-container">
                     {Object.entries(props.Providers).map((item, index) => (
                         <div>
-                            <input key={index} value={item} type="checkbox" onChange={handleCheck} defaultChecked={true}/>
-                            <span className={isChecked(item)}>{item[0]}</span>
+                            <input key={index} value={`${item[0]}_${props.providerType}`} type="checkbox" onChange={handleCheck} defaultChecked={true}/>
+                            <span className={isChecked(`${item[0]}_${props.providerType}`)}>{item[0]}</span>
                         </div>
                     ))}
                 </div>
@@ -48,11 +47,16 @@ export default function ProviderContainer(props) {
 
             <div > {
                 Object.entries(props.Providers).map((provider, index) => {
-                        return <Provider
+                        if (isChecked(`${provider}_${props.providerType}`)) {
+                            return <Provider
                             key={provider[0]+`_${props.providerType}`}
                             onClickHandlers={props.onClickHandlers}
                             name={provider[0]}
+                            providerType={props.providerType}
                             providerFunc={provider[1]}/>
+                        }
+                            
+                        return null;
                     }
                 )
             }

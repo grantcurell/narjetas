@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import '../../styles/styles.css'
+import {Provider} from "./Provider";
 
 export default function ProviderContainer(props) {
 
@@ -8,7 +9,7 @@ export default function ProviderContainer(props) {
 
     // Add/Remove checked item from list
     const handleCheck = (event) => {
-        var updatedList = [...checked];
+        let updatedList = [...checked];
         if (event.target.checked) {
             updatedList = [...checked, event.target.value];
         } else {
@@ -34,8 +35,8 @@ export default function ProviderContainer(props) {
                 <div className="title">{props.providerType} Providers:</div>
                 <div className="list-container">
                     {Object.entries(props.Providers).map((item, index) => (
-                        <div key={index}>
-                            <input value={item} type="checkbox" onChange={handleCheck} defaultChecked={true}/>
+                        <div>
+                            <input key={index} value={item} type="checkbox" onChange={handleCheck} defaultChecked={true}/>
                             <span className={isChecked(item)}>{item[0]}</span>
                         </div>
                     ))}
@@ -46,9 +47,12 @@ export default function ProviderContainer(props) {
             </div>
 
             <div > {
-                Object.entries(props.Providers).map((Provider, index) => {
-                        const Component = Provider[1];
-                        return <Component key={Provider[0]+`_${props.providerType}`} onClickHandlers={props.onClickHandlers} name={Provider[0]}/>
+                Object.entries(props.Providers).map((provider, index) => {
+                        return <Provider
+                            key={provider[0]+`_${props.providerType}`}
+                            onClickHandlers={props.onClickHandlers}
+                            name={provider[0]}
+                            providerFunc={provider[1]}/>
                     }
                 )
             }

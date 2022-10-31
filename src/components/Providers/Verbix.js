@@ -1,29 +1,11 @@
-import callApi from "../../library_code/callApi";
-import { useState, useEffect } from "react";
 
-const getVerbix = async (data, options) => {
-    const response = await fetch('https://www.verbix.com/webverbix/go.php?&D1=25&T1=elske', {
-        ...options,
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    });
-    const responseData = await response.json();
-
-    // add transformers here if needed
-
-    return responseData;
-};
-  
 export const Verbix = {
     definitionProviders: {},
     exampleProviders: {
-        nb: NbExampleProvider
+        nb: nbGetVerbixExample
     },
     conjugationProviders: {
-        nb: NbConjugationProvider
+        nb: nbGetVerbixConjugation
     },
     etymologyProviders: {},
     otherInfoProvider: {},
@@ -37,45 +19,24 @@ export const Verbix = {
 }
 
 // Norwegian providers
-function NbExampleProvider() {
+function nbGetVerbixExample() {
     return(
         <h1>Example Hello</h1>
     );
 }
 
-function NbConjugationProvider(props) {
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [data, setData] = useState(null);
+async function nbGetVerbixConjugation(data, setData, setError, setIsLoading, options = {}) {
+    try {
+        const response = await fetch('https://www.verbix.com/webverbix/go.php?&D1=25&T1=elske', options);
+        const responseData = await response.json();
+    
+        // add transformers here if needed
+    
+        setData(responseData);
+        setIsLoading(false);
 
-    // Register an event handler such that when someone clicks the button
-    // "Lookup Word" in lookup word that this component takes action
-    // TODO - we need to untoggle for the next word
-    useEffect(() => {
-        props.onClickHandlers.push(() => {
-            setData("Balls");
-        });
-        return () => {
-          //alert("component is being removed from the DOM");
-        };
-    }, []); 
-
-    /*
-    callApi(
-        isLoading,
-        setIsLoading,
-        getVerbix,
-        data,
-        setData,
-        error,
-        setError
-    );*/
-
-    return(
-        <div>
-            { data || isLoading ? <h2>{props.name}</h2> : null }
-            { isLoading ? <span>Loading...</span> : null }
-            { data ? <span>{data}</span> : null }
-        </div>
-    );
-}
+    } catch (e) {
+        setError(e);
+        setIsLoading(false);
+    }
+};

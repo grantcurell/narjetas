@@ -1,5 +1,5 @@
 import React from 'react';
-import Provider from "../Providers/Provider";
+import ProviderContainer from "../Providers/ProviderContainer";
 
 export default function LookupWord(props) {
 
@@ -43,34 +43,34 @@ export default function LookupWord(props) {
         <div>
             {
                 Object.keys(ConjugationProviders).length > 0 ? 
-                    <Provider language={props.language} 
-                    Providers={ConjugationProviders} 
-                    providerType="Conjugation"
-                    onClickHandlers={onClickHandlers}/>
+                    <ProviderContainer language={props.language}
+                                       Providers={ConjugationProviders}
+                                       providerType="Conjugation"
+                                       onClickHandlers={onClickHandlers}/>
                     : null
             }
             {
                 Object.keys(DefinitionProviders).length > 0 ? 
-                    <Provider language={props.language} 
-                    Providers={DefinitionProviders} 
-                    providerType="Definition"
-                    onClickHandlers={onClickHandlers}/>
+                    <ProviderContainer language={props.language}
+                                       Providers={DefinitionProviders}
+                                       providerType="Definition"
+                                       onClickHandlers={onClickHandlers}/>
                     : null
             }
             {
                 Object.keys(ExampleProviders).length > 0 ? 
-                    <Provider language={props.language} 
-                    Providers={ExampleProviders} 
-                    providerType="Example"
-                    onClickHandlers={onClickHandlers}/>
+                    <ProviderContainer language={props.language}
+                                       Providers={ExampleProviders}
+                                       providerType="Example"
+                                       onClickHandlers={onClickHandlers}/>
                     : null
             }
             {
                 Object.keys(EtymologyProviders).length > 0 ? 
-                    <Provider language={props.language} 
-                    Providers={EtymologyProviders} 
-                    providerType="Etymology"
-                    onClickHandlers={onClickHandlers}/>
+                    <ProviderContainer language={props.language}
+                                       Providers={EtymologyProviders}
+                                       providerType="Etymology"
+                                       onClickHandlers={onClickHandlers}/>
                     : null
             }
             { // Only render the lookup word button if at least one provider

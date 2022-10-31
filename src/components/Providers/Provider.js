@@ -5,15 +5,22 @@ export function Provider(props) {
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
 
+
+
     // Register an event handler such that when someone clicks the button
-    // "Lookup Word" in lookup word that this component takes action
+    // "Lookup Word" in lookup word that this component takes action>. When
+    // the component is unmounted remove the handler function from the list.
     useEffect(() => {
-        props.onClickHandlers.push(() => {
-            props.providerFunc("elske", setData, setError, setIsLoading);
+        console.debug(`Adding handler for ${props.name}`)
+        props.onClickHandlers.push((word) => {
+            alert("BALLS");
+            props.providerFunc(word, setData, setError, setIsLoading);
         });
+        console.debug(`Handler list is now ${props.onClickHandlers}`);
         return () => {
-            //alert("component is being removed from the DOM");
-            // TODO - should I do something here?
+            console.debug(`Removing handler for ${props.name}`)
+            //props.onClickHandlers.pop(handlerFunc);
+            console.debug(`Handler list is now ${props.onClickHandlers}`);
         };
     }, []);
 

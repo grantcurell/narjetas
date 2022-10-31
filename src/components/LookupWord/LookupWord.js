@@ -1,11 +1,14 @@
 import React from 'react';
 import ProviderContainer from "../Providers/ProviderContainer";
+import {useState} from "react";
 
 export default function LookupWord(props) {
 
+    const [word, setWord] = useState('');
+
     // This will contain a list of all the handlers for Lookup Word click from
     // the child providers
-    const onClickHandlers = [];
+    const [onClickHandlers, setOnClickHandlers] = useState([]);
 
     let ConjugationProviders = {};
     let DefinitionProviders = {};
@@ -33,8 +36,10 @@ export default function LookupWord(props) {
     }
 
     const handleClick = (event) => {
+        console.info(`Looking up the word ${word}`);
+        console.info(`Top level onClickHandlers are ${onClickHandlers}`);
         onClickHandlers.forEach((callbackFunction) => {
-            callbackFunction();
+            callbackFunction(word);
         });
     }
 
@@ -42,35 +47,35 @@ export default function LookupWord(props) {
     return(
         <div>
             {
-                Object.keys(ConjugationProviders).length > 0 ? 
+                Object.keys(ConjugationProviders).length > 0 ?
                     <ProviderContainer language={props.language}
                                        Providers={ConjugationProviders}
                                        providerType="Conjugation"
-                                       onClickHandlers={onClickHandlers}/>
+                                       setOnClickHandlers={setOnClickHandlers}/>
                     : null
             }
             {
-                Object.keys(DefinitionProviders).length > 0 ? 
+                Object.keys(DefinitionProviders).length > 0 ?
                     <ProviderContainer language={props.language}
                                        Providers={DefinitionProviders}
                                        providerType="Definition"
-                                       onClickHandlers={onClickHandlers}/>
+                                       setOnClickHandlers={setOnClickHandlers}/>
                     : null
             }
             {
-                Object.keys(ExampleProviders).length > 0 ? 
+                Object.keys(ExampleProviders).length > 0 ?
                     <ProviderContainer language={props.language}
                                        Providers={ExampleProviders}
                                        providerType="Example"
-                                       onClickHandlers={onClickHandlers}/>
+                                       setOnClickHandlers={setOnClickHandlers}/>
                     : null
             }
             {
-                Object.keys(EtymologyProviders).length > 0 ? 
+                Object.keys(EtymologyProviders).length > 0 ?
                     <ProviderContainer language={props.language}
                                        Providers={EtymologyProviders}
                                        providerType="Etymology"
-                                       onClickHandlers={onClickHandlers}/>
+                                       setOnClickHandlers={setOnClickHandlers}/>
                     : null
             }
             { // Only render the lookup word button if at least one provider
@@ -79,7 +84,16 @@ export default function LookupWord(props) {
                 Object.keys(DefinitionProviders).length > 0 ||
                 Object.keys(ExampleProviders).length > 0 ||
                 Object.keys(EtymologyProviders).length > 0 ?
-                    <button onClick={handleClick}>Lookup Word</button>
+                    <div>
+                        <label for='word'>Word: </label>
+                        <input id='word' 
+                        value={word} 
+                        onChange={(event) => {
+                            setWord(event.target.value);
+                            console.debug(`The onClickHandlers are ${onClickHandlers}`);
+                            }} />
+                        <button onClick={handleClick}>Lookup Word</button>
+                    </div>
                     : null
             }
         </div>

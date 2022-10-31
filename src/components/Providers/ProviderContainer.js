@@ -70,7 +70,8 @@ export default function ProviderContainer(props) {
                         if (checked.includes(`${provider[0]}_${props.providerType}`)) {
                             return <Provider
                             key={provider[0]+`_${props.providerType}`}
-                            setOnClickHandlers={props.setOnClickHandlers}
+                            addOnClickHandler={props.addOnClickHandler}
+                            removeOnClickHandler={props.removeOnClickHandler}
                             name={provider[0]}
                             providerType={props.providerType}
                             providerFunc={provider[1]}/>

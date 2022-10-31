@@ -41,7 +41,25 @@ export default function LookupWord(props) {
         onClickHandlers.forEach((callbackFunction) => {
             callbackFunction(word);
         });
-    }
+    };
+
+    const addOnClickHandler = (handler) => {
+        setOnClickHandlers((prev) => {
+            console.log(`Inside set is fine! ${[handler, ...prev]}`);
+            return [handler, ...prev];
+        });
+        console.log(`This is empty: ${onClickHandlers}`);
+        onClickHandlers.push(handler); // TODO need to remove this
+        console.debug(`Handler list after push is ${onClickHandlers}`);
+    };
+
+    const removeOnClickHandler = (handler) => {
+        setOnClickHandlers((prev) => {
+            return prev.filter((prevHandler) => handler !== prevHandler);
+       });
+       onClickHandlers.pop(handler);
+       console.debug(`Handler list after remove is ${onClickHandlers}`);
+     };
 
     // render the component collection
     return(
@@ -51,7 +69,8 @@ export default function LookupWord(props) {
                     <ProviderContainer language={props.language}
                                        Providers={ConjugationProviders}
                                        providerType="Conjugation"
-                                       setOnClickHandlers={setOnClickHandlers}/>
+                                       addOnClickHandler={addOnClickHandler}
+                                       removeOnClickHandler={removeOnClickHandler}/>
                     : null
             }
             {
@@ -59,7 +78,8 @@ export default function LookupWord(props) {
                     <ProviderContainer language={props.language}
                                        Providers={DefinitionProviders}
                                        providerType="Definition"
-                                       setOnClickHandlers={setOnClickHandlers}/>
+                                       addOnClickHandler={addOnClickHandler}
+                                       removeOnClickHandler={removeOnClickHandler}/>
                     : null
             }
             {
@@ -67,7 +87,8 @@ export default function LookupWord(props) {
                     <ProviderContainer language={props.language}
                                        Providers={ExampleProviders}
                                        providerType="Example"
-                                       setOnClickHandlers={setOnClickHandlers}/>
+                                       addOnClickHandler={addOnClickHandler}
+                                       removeOnClickHandler={removeOnClickHandler}/>
                     : null
             }
             {
@@ -75,7 +96,8 @@ export default function LookupWord(props) {
                     <ProviderContainer language={props.language}
                                        Providers={EtymologyProviders}
                                        providerType="Etymology"
-                                       setOnClickHandlers={setOnClickHandlers}/>
+                                       addOnClickHandler={addOnClickHandler}
+                                       removeOnClickHandler={removeOnClickHandler}/>
                     : null
             }
             { // Only render the lookup word button if at least one provider

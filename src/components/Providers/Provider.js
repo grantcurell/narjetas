@@ -5,22 +5,20 @@ export function Provider(props) {
     const [error, setError] = useState(null);
     const [data, setData] = useState(null);
 
-
+    const handlerFunc = (word) => {
+        alert("hello");
+        //props.providerFunc(word, setData, setError, setIsLoading);
+    }
 
     // Register an event handler such that when someone clicks the button
     // "Lookup Word" in lookup word that this component takes action>. When
     // the component is unmounted remove the handler function from the list.
     useEffect(() => {
         console.debug(`Adding handler for ${props.name}`)
-        props.onClickHandlers.push((word) => {
-            alert("BALLS");
-            props.providerFunc(word, setData, setError, setIsLoading);
-        });
-        console.debug(`Handler list is now ${props.onClickHandlers}`);
+        props.addOnClickHandler(handlerFunc);
         return () => {
             console.debug(`Removing handler for ${props.name}`)
-            //props.onClickHandlers.pop(handlerFunc);
-            console.debug(`Handler list is now ${props.onClickHandlers}`);
+            props.removeOnClickHandler(handlerFunc);
         };
     }, []);
 

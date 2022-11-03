@@ -1,9 +1,10 @@
 const {By,Key,Builder} = require("selenium-webdriver");
+const express = require('express');
 require("chromedriver");
 
 async function example(){
 
-    var searchString = "Automation testing with Selenium";
+    const searchString = "Automation testing with Selenium";
 
     //To wait for browser to build and launch properly
     let driver = await new Builder().forBrowser("chrome").build();
@@ -15,7 +16,7 @@ async function example(){
     await driver.findElement(By.name("q")).sendKeys(searchString,Key.RETURN);
 
     //Verify the page title and print it
-    var title = await driver.getTitle();
+    const title = await driver.getTitle();
     console.log('Title is:',title);
 
     //It is always a safe practice to quit the browser after execution
@@ -23,4 +24,16 @@ async function example(){
 
 }
 
-example()
+//example()
+const app = express();
+
+app.get('/', function (req, res) {
+    res.send('Hello World');
+})
+
+const server = app.listen(8081, function () {
+    const host = server.address().address;
+    const port = server.address().port;
+
+    console.log("Example app listening at http://%s:%s", host, port)
+});

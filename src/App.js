@@ -32,14 +32,13 @@ function App() {
     }));
   };
 
-  console.log("About to return.");
   return (
     <div>
       <Router>
         <Navbar />
         <Routes>
-          {['/', '/LookupWord'].map((path) => (
-            <Route path={path} element=
+          {['/', '/LookupWord'].map((path, index) => (
+            <Route key={index} path={path} element=
               {
                 supportedConfigs ? 
                   <LookupWord language={globalSettings.language}

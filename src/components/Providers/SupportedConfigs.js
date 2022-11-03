@@ -48,7 +48,7 @@ export function getSupportedConfigs() {
             // Check to see if the language, ex: nb, has a matching conjugation
             // template. If it doesn't, that shouldn't happen and is a warning
             if (conjugationProvider[0] in conjugations) {
-                console.info(`Registered conjugation provider ${provider.name} for ${languageNames.of(conjugationProvider[0])}`);
+                console.info(`INFO: Registered conjugation provider ${provider.name} for ${languageNames.of(conjugationProvider[0])}`);
                 
                 // Add the conjugation provider to our list of providers
                 if (typeof ConjugationProviders[conjugationProvider[0]] == 'undefined') {
@@ -65,7 +65,7 @@ export function getSupportedConfigs() {
             // Check to see if the language, ex: nb, has a matching example
             // template. If it doesn't, that shouldn't happen and is a warning
             if (exampleProvider[0] in examples) {
-                console.info(`Registered example provider ${provider.name} for ${languageNames.of(exampleProvider[0])}`);
+                console.info(`INFO: Registered example provider ${provider.name} for ${languageNames.of(exampleProvider[0])}`);
                 
                 // Add the conjugation provider to our list of providers
                 if (typeof ExampleProviders[exampleProvider[0]] == 'undefined') {

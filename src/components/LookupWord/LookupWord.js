@@ -36,8 +36,8 @@ export default function LookupWord(props) {
     }
 
     const handleClick = (event) => {
-        console.info(`Looking up the word ${word}`);
-        console.info(`Top level onClickHandlers are ${onClickHandlers}`);
+        console.info(`INFO: Looking up the word ${word}`);
+        console.info(`INFO: Top level onClickHandlers are ${onClickHandlers}`);
         onClickHandlers.forEach((callbackFunction) => {
             callbackFunction(word);
         });
@@ -45,12 +45,8 @@ export default function LookupWord(props) {
 
     const addOnClickHandler = (handler) => {
         setOnClickHandlers((prev) => {
-            console.log(`Inside set is fine! ${[handler, ...prev]}`);
             return [handler, ...prev];
         });
-        console.log(`This is empty: ${onClickHandlers}`);
-        onClickHandlers.push(handler); // TODO need to remove this
-        console.debug(`Handler list after push is ${onClickHandlers}`);
     };
 
     const removeOnClickHandler = (handler) => {
@@ -58,7 +54,7 @@ export default function LookupWord(props) {
             return prev.filter((prevHandler) => handler !== prevHandler);
        });
        onClickHandlers.pop(handler);
-       console.debug(`Handler list after remove is ${onClickHandlers}`);
+       console.debug(`DEBUG: Handler list after remove is ${onClickHandlers}`);
      };
 
     // render the component collection
@@ -107,12 +103,12 @@ export default function LookupWord(props) {
                 Object.keys(ExampleProviders).length > 0 ||
                 Object.keys(EtymologyProviders).length > 0 ?
                     <div>
-                        <label for='word'>Word: </label>
+                        <label htmlFor='word'>Word: </label>
                         <input id='word' 
                         value={word} 
                         onChange={(event) => {
                             setWord(event.target.value);
-                            console.debug(`The onClickHandlers are ${onClickHandlers}`);
+                            console.debug(`DEBUG: The onClickHandlers are ${onClickHandlers}`);
                             }} />
                         <button onClick={handleClick}>Lookup Word</button>
                     </div>

@@ -41,16 +41,14 @@ export default function ProviderContainer(props) {
         })
     : "";
 
-    // TODO change the checkbox keys
     return (
         <div>
             <div className="checkList">
                 <div className="title">{props.providerType} Providers:</div>
                 <div className="list-container">
                     {Object.entries(props.Providers).map((item, index) => (
-                        <div>
-                            <input 
-                                key={`${item[0]}_${props.providerType}_${index}`} 
+                        <div key={`${item[0]}_${props.providerType}_${index}`}>
+                            <input
                                 value={`${item[0]}_${props.providerType}`} 
                                 type="checkbox" 
                                 onChange={handleCheck} 

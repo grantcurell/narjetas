@@ -1,3 +1,4 @@
+import React from "react";
 
 export const examples = {
     nb: {}
@@ -22,5 +23,15 @@ export class Example {
         } 
 
         return this.example
+    }
+
+    render () {
+        // TODO - this is not currently complete
+        // TODO - See https://github.com/grantcurell/narjetas/issues/5
+        return <span>{this.example.weblink !== "" ? <a
+            target="_blank"
+            rel="noopener"
+            href={this.example.weblink}>Click here for the conjugation!</a> :
+            null}</span>;
     }
 }

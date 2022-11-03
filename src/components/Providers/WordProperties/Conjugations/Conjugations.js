@@ -1,3 +1,4 @@
+import React from 'react';
 
 export const conjugations =
 {
@@ -37,6 +38,16 @@ export class Conjugation {
             return this.conjugation[key];
         } 
 
-        return this.conjugation
+        return this.conjugation;
+    }
+
+    render () {
+        // TODO - this is not currently complete
+        // TODO - See https://github.com/grantcurell/narjetas/issues/4
+        return <span>{this.conjugation.weblink !== "" ? <a
+            target="_blank"
+            rel="noopener"
+            href={this.conjugation.weblink}>Click here for the conjugation!</a>
+            : null}</span>;
     }
 }

@@ -30,17 +30,18 @@ export function Provider(props) {
     }, []);
 
     // Handle the data differently based on the type of component we are rendering
+
     let handleData;
     if (props.providerType === "Conjugation") {
         // TODO - Need to finish conjugation parsing
         // See https://github.com/grantcurell/narjetas/issues/2
         handleData = (data) => {
-            return data.get('weblink');
+            return data.render();
         };
     } else if (props.providerType === "Example") {
         // TODO - Need to finish example parsing
         handleData = (data) => {
-            return data.get('weblink');
+            return data.render();
         };
     } else if (props.providerType === "Definition") {
         // TODO - Need to finish definition parsing

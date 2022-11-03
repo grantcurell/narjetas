@@ -1,6 +1,14 @@
 # Narjetas
 
+## Potential Sources
 
+https://freedict.org/downloads/
+https://ord.uib.no/ord_2_API.html
+
+## How the dictionary format for Norwegian works
+
+https://linux.die.net/man/1/dictfmt
+https://en.wikipedia.org/wiki/DICT
 
 # Getting Started with Create React App
 

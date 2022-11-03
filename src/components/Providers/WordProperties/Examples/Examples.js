@@ -31,7 +31,7 @@ export class Example {
         return <span>{this.example.weblink !== "" ? <a
             target="_blank"
             rel="noopener"
-            href={this.example.weblink}>Click here for the conjugation!</a> :
+            href={this.example.weblink}>Click here for the example!</a> :
             null}</span>;
     }
 }

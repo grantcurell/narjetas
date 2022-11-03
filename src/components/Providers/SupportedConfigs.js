@@ -2,9 +2,11 @@ import { conjugations } from "./WordProperties/Conjugations/Conjugations"
 import { definitions } from "./WordProperties/Definitions/Definitions";
 import { examples } from "./WordProperties/Examples/Examples";
 import { Verbix } from "./Verbix";
+import {Ordbokene} from "./Ordbokene";
 
 const providers = [
-    Verbix
+    Verbix,
+    Ordbokene
 ];
 
 /**

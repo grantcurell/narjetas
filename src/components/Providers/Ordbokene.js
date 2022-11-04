@@ -17,18 +17,14 @@ export const Ordbokene = {
 }
 
 // Norwegian providers
-async function nbGetOrdbokeneExample(searchWord, setData, setError, setIsLoading) {
-    setIsLoading(false);
-    setError(null);
+async function nbGetOrdbokeneExample(searchWord) {
     const example = new Example('nb');
     example.set('weblink', `https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
-    setData(example);
+    return null
 }
 
-async function nbGetOrdbokeneConjugation(searchWord, setData, setError, setIsLoading) {
-    setIsLoading(false);
-    setError(null);
+async function nbGetOrdbokeneConjugation(searchWord) {
     const conjugation = new Conjugation('nb');
     conjugation.set('weblink', `https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
-    setData(conjugation);
+    return null
 }

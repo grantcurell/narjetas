@@ -15,18 +15,18 @@ let corsOptions = {
     origin : ['http://localhost:3000', 'http://127.0.0.1:3000'],
 }
 
+let driver = new Builder()
+    .forBrowser('chrome')
+    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .build();
+
 async function getUrl(url){
 
     const searchString = "Automation testing with Selenium";
 
     //let builder = new Builder().forBrowser('chrome')
     //builder = builder.setChromeOptions(new chrome.Options().headless())
-
-    let driver = new Builder()
-        .forBrowser('chrome')
-        //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
-        //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
-        .build();
 
     //To wait for browser to build and launch properly
     //let driver = await builder.forBrowser("chrome").build();

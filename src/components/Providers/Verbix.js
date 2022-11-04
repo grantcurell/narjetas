@@ -23,10 +23,13 @@ export const Verbix = {
 async function nbGetVerbixExample(searchWord) {
     const example = new Example('nb');
     const uri = encodeURIComponent(`https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
-    const response = await fetch(`http://localhost:8081/geturl/${uri}`);
-    //const response = await fetch("http://localhost:8081/");
-    console.log(response);
-    example.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
+    fetch(`http://localhost:8081/geturl/${uri}`).then(response => {
+        response.text().then(text => {
+            console.log(text);
+        });
+        example.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
+    });
+    
     return null;
 }
 

@@ -20,7 +20,7 @@ export const Verbix = {
 }
 
 // Norwegian providers
-async function nbGetVerbixExample(searchWord) {
+async function nbGetVerbixExample(searchWord, setData, setIsLoading) {
     const example = new Example('nb');
     const uri = encodeURIComponent(`https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
     fetch(`http://localhost:8081/geturl/${uri}`).then(response => {
@@ -42,15 +42,14 @@ async function nbGetVerbixExample(searchWord) {
                 htmlString += html[i].outerHTML;
             }
 
-            return htmlString;
+            setData(htmlString);
+            setIsLoading(false);
         });
     });
-    
-    return null;
 }
 
-async function nbGetVerbixConjugation(searchWord) {
+async function nbGetVerbixConjugation(searchWord, setData, setIsLoading) {
     const conjugation = new Conjugation('nb');
     conjugation.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
-    return null;
+    setData("balls");
 }

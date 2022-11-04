@@ -17,8 +17,7 @@ export function Provider(props) {
     const handlerFunc = (word) => {
         try {
             setIsLoading(true);
-            setData(props.providerFunc(word))
-            setIsLoading(false)
+            props.providerFunc(word, setData, setIsLoading)
         } catch (e) {
             setError(e);
             setIsLoading(false);

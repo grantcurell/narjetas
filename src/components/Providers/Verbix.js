@@ -20,12 +20,14 @@ export const Verbix = {
 }
 
 // Norwegian providers
-async function nbGetVerbixExample(searchWord, setData, setIsLoading) {
+async function nbGetVerbixExample(searchWord) {
     const example = new Example('nb');
     example.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
+    return example;
 }
 
-async function nbGetVerbixConjugation(searchWord, setData, setError, setIsLoading) {
+async function nbGetVerbixConjugation(searchWord) {
     const conjugation = new Conjugation('nb');
     conjugation.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
+    return conjugation;
 }

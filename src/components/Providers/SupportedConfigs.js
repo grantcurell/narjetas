@@ -5,8 +5,8 @@ import { Verbix } from "./Verbix";
 import {Ordbokene} from "./Ordbokene";
 
 const providers = [
-    Verbix,
-    Ordbokene
+    Verbix
+    //Ordbokene
 ];
 
 /**

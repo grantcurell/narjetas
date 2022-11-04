@@ -1,5 +1,6 @@
 import {Conjugation} from "./WordProperties/Conjugations/Conjugations";
 import {Example} from "./WordProperties/Examples/Examples";
+import ReactHtmlParser from 'react-html-parser';
 
 export const Verbix = {
     definitionProviders: {},
@@ -22,12 +23,40 @@ export const Verbix = {
 // Norwegian providers
 async function nbGetVerbixExample(searchWord) {
     const example = new Example('nb');
-    example.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
-    return example;
+    const uri = encodeURIComponent(`https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
+    let responsePromise = new Promise((resolve, reject) => {
+    
+        fetch(`http://localhost:8081/geturl/${uri}`).then(response => {
+            if (response.status === 200) {
+                responsePromise = response.text().then(text => {
+
+                    let dummyDOM = document.createElement( 'html' );
+                    dummyDOM.innerHTML = text;
+                    const html = dummyDOM.getElementsByClassName("verbtable");
+    
+                    let htmlString = "";
+                    for (let i = 0; i < html.length ; i++) {
+                        htmlString += html[i].outerHTML;
+                    }
+    
+                    resolve(ReactHtmlParser (htmlString));
+                });
+            } else {
+                reject("TITS");
+            }
+
+        });
+
+    });
+
+    return responsePromise;
 }
 
 async function nbGetVerbixConjugation(searchWord) {
-    const conjugation = new Conjugation('nb');
-    conjugation.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
-    return conjugation;
+
+    return <span>{<a
+    target="_blank"
+    rel="noopener"
+    href={`https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`}>Click here for the conjugation!</a>
+    }</span>;
 }

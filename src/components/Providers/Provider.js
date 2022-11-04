@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import ReactHtmlParser from 'react-html-parser';
 
 export function Provider(props) {
     const [isLoading, setIsLoading] = useState(false);
@@ -40,38 +39,11 @@ export function Provider(props) {
         };
     }, []);
 
-    // Handle the data differently based on the type of component we are rendering
-
-    let handleData;
-    if (props.providerType === "Conjugation") {
-        // TODO - Need to finish conjugation parsing
-        // See https://github.com/grantcurell/narjetas/issues/2
-        handleData = (data) => {
-            return data.render();
-        };
-    } else if (props.providerType === "Example") {
-        // TODO - Need to finish example parsing
-        handleData = (data) => {
-            return data.render();
-        };
-    } else if (props.providerType === "Definition") {
-        // TODO - Need to finish definition parsing
-        handleData = (data) => {
-            return data;
-        };
-    } else if (props.providerType === "Etymology") {
-        // TODO - Need to finish etymology parsing
-        // See https://github.com/grantcurell/narjetas/issues/3
-        handleData = (data) => {
-            return data;
-        };
-    }
-
     return(
         <div>
             { data || isLoading || error ? <h2>{props.name}</h2> : null }
             { isLoading ? <span>Loading...</span> : null }
-            { data ? <div>{handleData(data)}</div> : null }
+            { data ? <div>{data}</div> : null }
             { error ? <span>{error}</span>: error}
         </div>
     );

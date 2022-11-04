@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import ReactHtmlParser from 'react-html-parser';
 
 export function Provider(props) {
     const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +17,8 @@ export function Provider(props) {
     const handlerFunc = (word) => {
         try {
             setIsLoading(true);
-            setData(props.providerFunc(word));
+            setData(props.providerFunc(word))
+            setIsLoading(false)
         } catch (e) {
             setError(e);
             setIsLoading(false);
@@ -40,7 +42,7 @@ export function Provider(props) {
         <div>
             { data || isLoading || error ? <h2>{props.name}</h2> : null }
             { isLoading ? <span>Loading...</span> : null }
-            { data ? <div>balls</div> : null }
+            { data ? <div>{ ReactHtmlParser (data) }</div> : null }
             { error ? <span>{error}</span>: error}
         </div>
     );

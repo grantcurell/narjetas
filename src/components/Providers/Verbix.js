@@ -25,9 +25,25 @@ async function nbGetVerbixExample(searchWord) {
     const uri = encodeURIComponent(`https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
     fetch(`http://localhost:8081/geturl/${uri}`).then(response => {
         response.text().then(text => {
-            console.log(text);
+
+            let dummyDOM = document.createElement( 'html' );
+            dummyDOM.innerHTML = text;
+            const html = dummyDOM.getElementsByClassName("verbtable");
+
+            /*
+            // Get HTML as text
+            const htmlArray = [...html].map(item => {
+                return item.textContent || item.innerText || "";
+            }).join("");
+             */
+
+            let htmlString = "";
+            for (let i = 0; i < html.length ; i++) {
+                htmlString += html[i].outerHTML;
+            }
+
+            return htmlString;
         });
-        example.set('weblink', `https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
     });
     
     return null;

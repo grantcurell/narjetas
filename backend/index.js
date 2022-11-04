@@ -5,6 +5,7 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
 const cors = require('cors');
 const {urlencoded} = require("express");
 const { elementIsVisible } = require('selenium-webdriver/lib/until');
+const fs = require("fs");
 
 const screen = {
     width: 640,
@@ -69,6 +70,14 @@ app.get('/geturl/:url', function(req, res) {
         console.log(`Source is ${html}`)
         res.send(`${html}`);
     });
+})
+
+app.get('/getstyle/:stylesheet', function(req, res) {
+    res.writeHead(200, {'Content-type' : 'text/css'});
+    const fileContents = fs.readFileSync(`./styles/${req.params.stylesheet}.css`, {encoding: 'utf8'});
+    res.write(fileContents);
+    console.log("BALLS");
+    res.end();
 })
 
 const server = app.listen(8081, function () {

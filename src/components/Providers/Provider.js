@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import '../../styles/styles.css'
 import ReactHtmlParser from 'react-html-parser';
 
 export function Provider(props) {
@@ -41,7 +42,8 @@ export function Provider(props) {
         <div>
             { data || isLoading || error ? <h2>{props.name}</h2> : null }
             { isLoading ? <span>Loading...</span> : null }
-            { data ? <div>{ ReactHtmlParser (data) }</div> : null }
+            {data ? <iframe srcDoc={data} width='100%' height='700'/> : null }
+
             { error ? <span>{error}</span>: error}
         </div>
     );

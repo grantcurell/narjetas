@@ -27,12 +27,15 @@ async function nbGetVerbixExample(searchWord) {
     let responsePromise = new Promise((resolve, reject) => {
     
         fetch(`http://localhost:8081/geturl/${uri}`).then(response => {
-            if (response.status === 200) {
+            if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
+                    // TODO - this is a hack because I couldn't get getElementById to work
+                    // see https://github.com/grantcurell/narjetas/issues/7
+                    text = text.replace('id="samplesentences"', 'class=samplesentencesspecial');
                     let dummyDOM = document.createElement( 'html' );
                     dummyDOM.innerHTML = text;
-                    const html = dummyDOM.getElementsByClassName("verbtable");
+                    const html = dummyDOM.getElementsByClassName("samplesentencesspecial");
     
                     let htmlString = "";
                     for (let i = 0; i < html.length ; i++) {
@@ -42,11 +45,11 @@ async function nbGetVerbixExample(searchWord) {
                     resolve(ReactHtmlParser (htmlString));
                 });
             } else {
-                reject("TITS");
+                // TODO - need to handle this better
+                // https://github.com/grantcurell/narjetas/issues/8
+                reject("There was an error.");
             }
-
         });
-
     });
 
     return responsePromise;

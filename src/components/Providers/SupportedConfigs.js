@@ -4,10 +4,12 @@ import { examples } from "./WordProperties/Examples/Examples";
 import { etymologies } from "./WordProperties/Etymologies/Etymologies"
 import { Verbix } from "./Verbix";
 import {Ordbokene} from "./Ordbokene";
+import {Google} from "./Google";
 
 const providers = [
     Verbix,
-    Ordbokene
+    Ordbokene,
+    Google
 ];
 
 /**

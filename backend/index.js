@@ -16,25 +16,41 @@ let corsOptions = {
     origin : ['http://localhost:3000', 'http://127.0.0.1:3000'],
 }
 
-async function getUrl(url, driver){
+async function getUrl(url, driver, elementClass = null){
 
-    try {
-        //To fetch http://google.com from the browser with our code.
-        console.log(`url is ${url}`)
-        await driver.get(url);
+    //To fetch http://google.com from the browser with our code.
+    console.log(`url is ${url}`)
+    await driver.get(url);
 
-        //Verify the page title and print it
-        const title = await driver.getTitle();
-        console.log('Title is:',title);
+    //Verify the page title and print it
+    const title = await driver.getTitle();
+    console.log('Title is:',title);
 
-        const source = await driver.getPageSource().then((source) => {
-            return source;
+    let responsePromise;
+
+    if (elementClass) {
+
+        responsePromise = new Promise((resolve, reject) => {
+    
+            driver.wait(until.elementLocated(By.className(`${elementClass}`))).then(() => {
+
+                driver.findElement(By.className(`${elementClass}`)).click();
+
+                driver.findElement(By.className(`${elementClass}`)).getAttribute('outerHTML').then((source) => {
+
+                    resolve(source);
+
+                });
+            })
         });
 
-        return source
-    } catch {
-        console.log("HERE");
+    } else {
+        responsePromise = await driver.getPageSource().then((source) => {
+            return source;
+        });
     }
+
+    return responsePromise
 
 }
 
@@ -51,7 +67,7 @@ app.get('/geturl/:url', function(req, res) {
     console.log("BUILD 1");
     let driver = new Builder()
     .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -59,7 +75,31 @@ app.get('/geturl/:url', function(req, res) {
     console.log(req.params.url);
 
     getUrl(req.params.url, driver).then(html => {
-        //console.log(`Source is ${html}`)
+        res.send(`${html}`);
+        setTimeout(() => {
+            console.log("Trying to quit driver.");
+            
+            try {driver.quit();} catch {
+                console.log("Failed to quit driver.");
+            }
+        }, 1000);
+    });
+
+})
+
+app.get('/geturl/:url/:class', function(req, res) {
+
+    console.log("BUILD 1");
+    let driver = new Builder()
+    .forBrowser('chrome')
+    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .build();
+
+    console.log(req.params)
+    console.log(req.params.url);
+
+    getUrl(req.params.url, driver, req.params.class).then(html => {
         res.send(`${html}`);
         setTimeout(() => {
             console.log("Trying to quit driver.");

@@ -47,7 +47,7 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
 
             driver.findElement(By.className("show-inflection")).click();
 
-            driver.findElement(By.className("etymology")).getAttribute('outerHTML').then((source) => {
+            driver.findElement(By.className("definitions")).getAttribute('outerHTML').then((source) => {
 
                 resolve(source);
 

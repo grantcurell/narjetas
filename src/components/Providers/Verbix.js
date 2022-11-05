@@ -1,5 +1,3 @@
-import {Conjugation} from "./WordProperties/Conjugations/Conjugations";
-import {Example} from "./WordProperties/Examples/Examples";
 import ReactHtmlParser from 'react-html-parser';
 
 export const Verbix = {
@@ -22,7 +20,6 @@ export const Verbix = {
 
 // Norwegian providers
 async function nbGetVerbixExample(searchWord) {
-    const example = new Example('nb');
     const uri = encodeURIComponent(`https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
     let responsePromise = new Promise((resolve, reject) => {
     
@@ -56,7 +53,6 @@ async function nbGetVerbixExample(searchWord) {
 }
 
 async function nbGetVerbixConjugation(searchWord) {
-
     return <span>{<a
     target="_blank"
     rel="noopener"

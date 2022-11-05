@@ -37,7 +37,11 @@ async function nbGetOrdbokeneExample(searchWord) {
                         htmlString += html[i].outerHTML;
                     }
     
-                    resolve(ReactHtmlParser (htmlString));
+                    if (htmlString === "") {
+                        resolve(<span>No results found!</span>)
+                    } else {
+                        resolve(ReactHtmlParser (htmlString));
+                    }
                 });
             } else {
                 // TODO - need to handle this better

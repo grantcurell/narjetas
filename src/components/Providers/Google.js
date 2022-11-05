@@ -1,0 +1,45 @@
+import ReactHtmlParser from 'react-html-parser';
+
+export const Google = {
+    definitionProviders: {
+        nb: nbGetGoogleDefinition
+    },
+    exampleProviders: {},
+    conjugationProviders: {},
+    etymologyProviders: {},
+    otherInfoProvider: {},
+    capabilities: {},
+    options: {},
+    name: "Google"
+}
+
+// Norwegian providers
+async function nbGetGoogleDefinition(searchWord) {
+    const uri = encodeURIComponent(`https://translate.google.com/?sl=no&tl=en&text=${searchWord}&op=translate`);
+    let responsePromise = new Promise((resolve, reject) => {
+    
+        fetch(`http://localhost:8081/geturl/${uri}/ryNqvb`).then(response => {
+            if (response.status==200) {
+                responsePromise = response.text().then(text => {
+
+                    let dummyDOM = document.createElement( 'html' );
+                    dummyDOM.innerHTML = text;
+                    const html = dummyDOM.getElementsByClassName("ryNqvb");
+    
+                    let htmlString = "";
+                    for (let i = 0; i < html.length ; i++) {
+                        htmlString += html[i].outerHTML;
+                    }
+    
+                    resolve(ReactHtmlParser (htmlString));
+                });
+            } else {
+                // TODO - need to handle this better
+                // https://github.com/grantcurell/narjetas/issues/8
+                reject("There was an error.");
+            }
+        });
+    });
+
+    return responsePromise;
+}

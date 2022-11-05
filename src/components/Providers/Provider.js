@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import '../../styles/styles.css'
 
 export function Provider(props) {
     const [isLoading, setIsLoading] = useState(false);

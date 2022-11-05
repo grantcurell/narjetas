@@ -7,6 +7,9 @@ const Navbar= () =>{
             <li>
                 <Link to="/LookupWord">Lookup Word</Link>
             </li>
+            <li>
+                <Link to="Flashcards">Flashcards</Link>
+            </li>
         </div>
     );
 }

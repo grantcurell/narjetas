@@ -1,5 +1,7 @@
 const {Builder, By, Key, until} = require('selenium-webdriver');
 
+const LOOKUP_TIMEOUT = 5000;
+
 /**
  * TODO
  * TODO https://github.com/grantcurell/narjetas/issues/12
@@ -13,7 +15,7 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
 
     let responsePromise = new Promise((resolve, reject) => {
 
-        driver.wait(until.elementLocated(By.className("show-inflection"))).then(() => {
+        driver.wait(until.elementLocated(By.className("show-inflection")), LOOKUP_TIMEOUT).then(() => {
 
             driver.findElement(By.className("show-inflection")).click();
 
@@ -22,7 +24,10 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
                 resolve(source);
 
             });
-        })
+        }).catch((error => {
+            resolve("No results found!");
+            console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);
+        }))
 
     });
 
@@ -43,7 +48,7 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
 
     let responsePromise = new Promise((resolve, reject) => {
 
-        driver.wait(until.elementLocated(By.className("show-inflection"))).then(() => {
+        driver.wait(until.elementLocated(By.className("show-inflection")), LOOKUP_TIMEOUT).then(() => {
 
             driver.findElement(By.className("show-inflection")).click();
 
@@ -52,7 +57,10 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
                 resolve(source);
 
             });
-        })
+        }).catch((error => {
+            resolve("No results found!");
+            console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);
+        }))
 
     });
 
@@ -73,7 +81,7 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
 
     let responsePromise = new Promise((resolve, reject) => {
 
-        driver.wait(until.elementLocated(By.className("show-inflection"))).then(() => {
+        driver.wait(until.elementLocated(By.className("show-inflection")), LOOKUP_TIMEOUT).then(() => {
 
             driver.findElement(By.className("show-inflection")).click();
 
@@ -82,7 +90,10 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
                 resolve(source);
 
             });
-        })
+        }).catch((error => {
+            resolve("No results found!");
+            console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);
+        }))
 
     });
 

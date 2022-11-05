@@ -6,6 +6,7 @@ import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import LookupWord from "./components/LookupWord/LookupWord";
 import { getSupportedConfigs } from './components/Providers/SupportedConfigs';
+import Flashcards from './components/Flashcards/Flashcards';
 
 
 function App() {
@@ -47,6 +48,8 @@ function App() {
               }
             />
           ))}
+          <Route path='flashcards' 
+          element={<Flashcards language={globalSettings.language} supportedConfigs={supportedConfigs}/>}/>
         </Routes>
       </Router>
       <SelectLanguage onChange={handleLanguageChange} />

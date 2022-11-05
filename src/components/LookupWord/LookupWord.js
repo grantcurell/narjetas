@@ -4,7 +4,7 @@ import {useState} from "react";
 
 export default function LookupWord(props) {
 
-    const [word, setWord] = useState('');
+    const [word, setWord] = useState(props.word);
 
     // This will contain a list of all the handlers for Lookup Word click from
     // the child providers

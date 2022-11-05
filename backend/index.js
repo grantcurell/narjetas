@@ -16,6 +16,8 @@ let corsOptions = {
     origin : ['http://localhost:3000', 'http://127.0.0.1:3000'],
 }
 
+const LOOKUP_TIMEOUT = 5000;
+
 async function getUrl(url, driver, elementClass = null){
 
     //To fetch http://google.com from the browser with our code.
@@ -32,7 +34,7 @@ async function getUrl(url, driver, elementClass = null){
 
         responsePromise = new Promise((resolve, reject) => {
     
-            driver.wait(until.elementLocated(By.className(`${elementClass}`))).then(() => {
+            driver.wait(until.elementLocated(By.className(`${elementClass}`)), LOOKUP_TIMEOUT).then(() => {
 
                 driver.findElement(By.className(`${elementClass}`)).click();
 
@@ -41,7 +43,10 @@ async function getUrl(url, driver, elementClass = null){
                     resolve(source);
 
                 });
-            })
+            }).catch((error => {
+                resolve("No results found!");
+                console.debug(`Got no results for search url ${url}. Error: ${error}`);
+            }))
         });
 
     } else {
@@ -67,7 +72,7 @@ app.get('/geturl/:url', function(req, res) {
     console.log("BUILD 1");
     let driver = new Builder()
     .forBrowser('chrome')
-    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -92,7 +97,7 @@ app.get('/geturl/:url/:class', function(req, res) {
     console.log("BUILD 1");
     let driver = new Builder()
     .forBrowser('chrome')
-    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 

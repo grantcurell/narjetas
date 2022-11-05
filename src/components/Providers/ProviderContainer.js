@@ -58,9 +58,6 @@ export default function ProviderContainer(props) {
                         </div>
                     ))}
                 </div>
-                <div>
-                    {`Items checked are: ${checkedItems}`}
-                </div>
             </div>
 
             <div > {

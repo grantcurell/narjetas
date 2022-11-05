@@ -39,7 +39,12 @@ async function nbGetVerbixExample(searchWord) {
                         htmlString += html[i].outerHTML;
                     }
     
-                    resolve(ReactHtmlParser (htmlString));
+                    if (htmlString === "") {
+                        resolve("No results found!");
+                    } else {
+                        resolve(ReactHtmlParser (htmlString));
+                    }
+                    
                 });
             } else {
                 // TODO - need to handle this better

@@ -18,23 +18,24 @@ let corsOptions = {
 
 async function getUrl(url, driver){
 
-    //To fetch http://google.com from the browser with our code.
-    console.log(`url is ${url}`)
-    await driver.get(url);
+    try {
+        //To fetch http://google.com from the browser with our code.
+        console.log(`url is ${url}`)
+        await driver.get(url);
 
-    //Verify the page title and print it
-    const title = await driver.getTitle();
-    console.log('Title is:',title);
+        //Verify the page title and print it
+        const title = await driver.getTitle();
+        console.log('Title is:',title);
 
-    //It is always a safe practice to quit the browser after execution
-    // TODO - need to figure out how to quit driver https://github.com/grantcurell/narjetas/issues/9
-    // await driver.quit();
+        const source = await driver.getPageSource().then((source) => {
+            return source;
+        });
 
-    const source = await driver.getPageSource().then((source) => {
-        return source;
-    });
+        return source
+    } catch {
+        console.log("HERE");
+    }
 
-    return source
 }
 
 const app = express();
@@ -47,6 +48,7 @@ app.get('/', function (req, res) {
 
 app.get('/geturl/:url', function(req, res) {
 
+    console.log("BUILD 1");
     let driver = new Builder()
     .forBrowser('chrome')
     //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
@@ -55,26 +57,54 @@ app.get('/geturl/:url', function(req, res) {
 
     console.log(req.params)
     console.log(req.params.url);
+
     getUrl(req.params.url, driver).then(html => {
         //console.log(`Source is ${html}`)
         res.send(`${html}`);
-        driver.quit();
+        setTimeout(() => {
+            console.log("Trying to quit driver.");
+            
+            try {driver.quit();} catch {
+                console.log("Failed to quit driver.");
+            }
+        }, 1000);
     });
 
 })
 
-app.get('/getordbokene/:searchWord', function(req, res) {
+app.get('/getordbokene/:searchWord/:type', function(req, res) {
 
+    console.log("BUILD 2");
     let driver = new Builder()
     .forBrowser('chrome')
-    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))expectedexpected
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
-    Ordbokene.getOrdbokeneConjugation(driver, req.params.searchWord).then(html => {
-        res.send(html);
-        driver.quit();
-    });
+    if (req.params.type === "conjugation") {
+        Ordbokene.getOrdbokeneConjugation(driver, req.params.searchWord).then(html => {
+            res.send(html);
+            setTimeout(() => {
+                console.log("Trying to quit driver.");
+            
+                try {driver.quit();} catch {
+                    console.log("Failed to quit driver.");
+                }
+            }, 1000);
+        });
+    } else {
+        Ordbokene.getOrdbokeneDefs(driver, req.params.searchWord).then(html => {
+            res.send(html);
+            setTimeout(() => {
+                console.log("Trying to quit driver.");
+            
+                try {driver.quit();} catch {
+                    console.log("Failed to quit driver.");
+                }
+            }, 1000);
+        });
+    }
+
 
 })
 

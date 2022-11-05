@@ -25,13 +25,13 @@ async function nbGetOrdbokeneExample(searchWord) {
     const uri = encodeURIComponent(`https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/getordbokene/${searchWord}`).then(response => {
+        fetch(`http://localhost:8081/getordbokene/${searchWord}/example`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
                     let dummyDOM = document.createElement( 'html' );
                     dummyDOM.innerHTML = text;
-                    const html = dummyDOM.getElementsByClassName("article_content");
+                    const html = dummyDOM.getElementsByClassName("definitions");
     
                     let htmlString = "";
                     for (let i = 0; i < html.length ; i++) {
@@ -55,7 +55,7 @@ async function nbGetOrdbokeneConjugation(searchWord) {
     const uri = encodeURIComponent(`https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/getordbokene/${searchWord}`).then(response => {
+        fetch(`http://localhost:8081/getordbokene/${searchWord}/conjugation`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
@@ -86,7 +86,7 @@ async function nbGetOrdbokeneEtymology(searchWord) {
     const uri = encodeURIComponent(`https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/getordbokene/${searchWord}`).then(response => {
+        fetch(`http://localhost:8081/geturl/${uri}`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 

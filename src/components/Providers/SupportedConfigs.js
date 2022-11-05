@@ -1,6 +1,7 @@
 import { conjugations } from "./WordProperties/Conjugations/Conjugations"
 import { definitions } from "./WordProperties/Definitions/Definitions";
 import { examples } from "./WordProperties/Examples/Examples";
+import { etymologies } from "./WordProperties/Etymologies/Etymologies"
 import { Verbix } from "./Verbix";
 import {Ordbokene} from "./Ordbokene";
 
@@ -41,7 +42,19 @@ export function getSupportedConfigs() {
     providers.forEach(provider => {
         console.info(`INFO: Registering provider: ${provider.name}.`)
         Object.entries(provider.definitionProviders).forEach(definitionProvider => {
-            // TODO
+            // Check to see if the language, ex: nb, has a matching definition
+            // template. If it doesn't, that shouldn't happen and is a warning
+            if (definitionProvider[0] in definitions) {
+                console.info(`INFO: Registered definition provider ${provider.name} for ${languageNames.of(definitionProvider[0])}`);
+                
+                // Add the definition provider to our list of providers
+                if (typeof DefinitionProviders[definitionProvider[0]] == 'undefined') {
+                    DefinitionProviders[definitionProvider[0]] = {};
+                }
+                DefinitionProviders[definitionProvider[0]][provider.name] = definitionProvider[1];
+            } else {
+                console.warn(`WARNING: definition provider ${provider.name} has a provider for language ${definitionProvider[0]} (${languageNames.of(definitionProvider[0])}) but there was no template configuration. We are ignoring this provider. This should be investigated.`);
+            }
         });
 
         // Add conjugation providers
@@ -80,7 +93,19 @@ export function getSupportedConfigs() {
         });
 
         Object.entries(provider.etymologyProviders).forEach(etymologyProvider => {
-            // TODO
+            // Check to see if the language, ex: nb, has a matching etymology
+            // template. If it doesn't, that shouldn't happen and is a warning
+            if (etymologyProvider[0] in etymologies) {
+                console.info(`INFO: Registered etymology provider ${provider.name} for ${languageNames.of(etymologyProvider[0])}`);
+                
+                // Add the etymology provider to our list of providers
+                if (typeof EtymologyProviders[etymologyProvider[0]] == 'undefined') {
+                    EtymologyProviders[etymologyProvider[0]] = {};
+                }
+                EtymologyProviders[etymologyProvider[0]][provider.name] = etymologyProvider[1];
+            } else {
+                console.warn(`WARNING: Conjugation provider ${provider.name} has a provider for language ${etymologyProvider[0]} (${languageNames.of(etymologyProvider[0])}) but there was no template configuration. We are ignoring this provider. This should be investigated.`);
+            }
         });
     });
 

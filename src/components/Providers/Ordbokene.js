@@ -1,9 +1,9 @@
-import {Conjugation} from "./WordProperties/Conjugations/Conjugations";
-import {Example} from "./WordProperties/Examples/Examples";
 import ReactHtmlParser from 'react-html-parser';
 
 export const Ordbokene = {
-    definitionProviders: {},
+    definitionProviders: {
+        nb: nbGetOrdbokeneExample
+    },
     exampleProviders: {
         nb: nbGetOrdbokeneExample
     },
@@ -21,8 +21,7 @@ export const Ordbokene = {
 
 // Norwegian providers
 async function nbGetOrdbokeneExample(searchWord) {
-    const example = new Example('nb');
-    const uri = encodeURIComponent(`https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
+
     let responsePromise = new Promise((resolve, reject) => {
     
         fetch(`http://localhost:8081/getordbokene/${searchWord}/example`).then(response => {
@@ -52,7 +51,6 @@ async function nbGetOrdbokeneExample(searchWord) {
 }
 
 async function nbGetOrdbokeneConjugation(searchWord) {
-    const uri = encodeURIComponent(`https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
     let responsePromise = new Promise((resolve, reject) => {
     
         fetch(`http://localhost:8081/getordbokene/${searchWord}/conjugation`).then(response => {
@@ -82,11 +80,9 @@ async function nbGetOrdbokeneConjugation(searchWord) {
 }
 
 async function nbGetOrdbokeneEtymology(searchWord) {
-    const Etymology = new Etymology('nb');
-    const uri = encodeURIComponent(`https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/geturl/${uri}`).then(response => {
+        fetch(`http://localhost:8081/getordbokene/${searchWord}/etymology`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 

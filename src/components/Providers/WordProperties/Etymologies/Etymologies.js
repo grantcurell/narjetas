@@ -1,2 +1,4 @@
 
-export const Etymologies = {};
+export const etymologies = {
+    nb: {}
+};

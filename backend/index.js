@@ -51,7 +51,7 @@ app.get('/geturl/:url', function(req, res) {
     console.log("BUILD 1");
     let driver = new Builder()
     .forBrowser('chrome')
-    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -77,12 +77,23 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
     console.log("BUILD 2");
     let driver = new Builder()
     .forBrowser('chrome')
-    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))expectedexpected
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     if (req.params.type === "conjugation") {
         Ordbokene.getOrdbokeneConjugation(driver, req.params.searchWord).then(html => {
+            res.send(html);
+            setTimeout(() => {
+                console.log("Trying to quit driver.");
+            
+                try {driver.quit();} catch {
+                    console.log("Failed to quit driver.");
+                }
+            }, 1000);
+        });
+    } else if (req.params.type === "etymology") {
+        Ordbokene.getOrdbokeneEtymology(driver, req.params.searchWord).then(html => {
             res.send(html);
             setTimeout(() => {
                 console.log("Trying to quit driver.");
@@ -104,6 +115,7 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
             }, 1000);
         });
     }
+    
 
 
 })

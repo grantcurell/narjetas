@@ -31,7 +31,7 @@ async function nbGetOrdbokeneExample(searchWord) {
 
                     let dummyDOM = document.createElement( 'html' );
                     dummyDOM.innerHTML = text;
-                    const html = dummyDOM.getElementsByClassName("article_content xs");
+                    const html = dummyDOM.getElementsByClassName("article_content");
     
                     let htmlString = "";
                     for (let i = 0; i < html.length ; i++) {

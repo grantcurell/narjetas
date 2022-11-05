@@ -6,7 +6,7 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
  * @param {string} searchWord
  * @returns 
  */
-async function getOrdbokeneConjugation(driver, searchWord){
+ async function getOrdbokeneConjugation(driver, searchWord){
 
     await driver.get(`https://ordbokene.no/bm/search?q=${searchWord}&scope=ei`);
 

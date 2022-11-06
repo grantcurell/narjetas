@@ -11,6 +11,8 @@ import Flashcards from './components/Flashcards/Flashcards';
 
 function App() {
 
+  // https://github.com/grantcurell/narjetas/issues/20
+  // TODO - I already know this is bad. Needs to be moved
   let flashCardWordList = [];
   
   function setWordList(list) {
@@ -25,6 +27,16 @@ function App() {
 
   function getWordList(word) {
     return flashCardWordList;
+  }
+
+  let flashcardData = {};
+  
+  function addFlashcardData(word, data) {
+    flashcardData[word] = data;
+  }
+
+  function getFlashcardData() {
+    return flashcardData;
   }
 
   // TODO - Follow up on this with
@@ -65,7 +77,13 @@ function App() {
             />
           ))}
           <Route path='flashcards' 
-          element={<Flashcards language={globalSettings.language} supportedConfigs={supportedConfigs} setWordList={setWordList} removeFromWordList={removeFromWordList} getWordList={getWordList}/>}/>
+          element={<Flashcards language={globalSettings.language} 
+          supportedConfigs={supportedConfigs} 
+          setWordList={setWordList} 
+          removeFromWordList={removeFromWordList} 
+          getWordList={getWordList}
+          addFlashcardData={addFlashcardData}
+          getFlashcardData={getFlashcardData}/>}/>
         </Routes>
       </Router>
       <SelectLanguage onChange={handleLanguageChange} />

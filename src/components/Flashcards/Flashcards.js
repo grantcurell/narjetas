@@ -14,7 +14,6 @@ export default function Flashcards(props) {
     const [toggle, setToggle] = useState(true);
     const [readyToDownload, setReadyToDownload] = useState(false);
     const mutex = new Mutex();
-    let flashcardData = {};
 
     function handleFlashcardComplete(newFlashcardData, word) {
 
@@ -23,8 +22,9 @@ export default function Flashcards(props) {
         mutex
         .acquire()
         .then(function(release) {
-            if (!(word in flashcardData)) {
-                flashcardData[word] = newFlashcardData;
+            if (!(word in props.getFlashcardData())) {
+                // Deep copy the data when we add it otherwise it will get deleted
+                props.addFlashcardData(word, JSON.parse(JSON.stringify(newFlashcardData)))
                 if (props.getWordList().length === 1) {
                     setToggle(false);
                     createFile();
@@ -47,42 +47,30 @@ export default function Flashcards(props) {
       
 
     function createFile() {
-        /*
-            logging.info("Outputting " + word["final_traditional"])
-            output_file.write(word["final_traditional"] + delimiter + word["simplified"] + delimiter + word["pinyin"] +
-                                delimiter + "<br>".join(word["defs"]).replace(delimiter, "") +
-                                delimiter + word["hsk"].replace(" ", "") + delimiter +
-                                word["history"].replace(delimiter, "") + delimiter)
-
-            for character in word["characters"]:
-                output_file.write(character.replace('\n', "").replace(delimiter, ""))
-
-            try:
-                line = examples[word["final_traditional"]].replace('\n', "") + "\n"
-            except KeyError:
-                logging.debug("No examples found for word_to_process: " + word["final_traditional"])
-        */
 
         const delimiter = '\\';
         let outputString = '';
 
-        Object.entries(flashcardData).forEach(flashcard => {
+        Object.entries(props.getFlashcardData()).forEach(flashcard => {
             console.log("HERE");
+            outputString += flashcard[0];
+            outputString += delimiter;
             Object.entries(flashcard[1]['Definition']).map(definition => {
-                outputString += definition[1]['html'].replace(delimiter, '');
+                outputString += definition[1]['html'].replace(delimiter, '').replace(/\n/g, '').replace(/\\n/g, '');
             })
             outputString += delimiter;
             Object.entries(flashcard[1]['Conjugation']).map(conjugation => {
-                outputString += conjugation[1]['html'].replace(delimiter, '');
+                outputString += conjugation[1]['html'].replace(delimiter, '').replace(/\n/g, '').replace(/\\n/g, '');
             })
             outputString += delimiter;
             Object.entries(flashcard[1]['Etymology']).map(etymology => {
-                outputString += etymology[1]['html'].replace(delimiter, '');
+                outputString += etymology[1]['html'].replace(delimiter, '').replace(/\n/g, '').replace(/\\n/g, '');
             })
             outputString += delimiter;
             Object.entries(flashcard[1]['Example']).map(example => {
-                outputString += example[1]['html'].replace(delimiter, '');
+                outputString += example[1]['html'].replace(delimiter, '').replace(/\n/g, '').replace(/\\n/g, '');
             })
+            outputString = outputString
             outputString += '\n';
         });
 

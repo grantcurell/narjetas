@@ -73,7 +73,7 @@ async function nbGetOrdbokeneConjugation(searchWord) {
                     if (htmlString === "") {
                         resolve(<span>No results found!</span>)
                     } else {
-                        resolve(ReactHtmlParser (htmlString));
+                        resolve(ReactHtmlParser (htmlString.replace(/\n/g, '<br>').replace(/\\n/g, '<br>')));
                     }
                 });
             } else {

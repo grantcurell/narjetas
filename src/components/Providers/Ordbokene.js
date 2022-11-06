@@ -2,10 +2,10 @@ import ReactHtmlParser from 'react-html-parser';
 
 export const Ordbokene = {
     definitionProviders: {
-        nb: nbGetOrdbokeneExample
+        //nb: nbGetOrdbokeneExample
     },
     exampleProviders: {
-        nb: nbGetOrdbokeneExample
+        //nb: nbGetOrdbokeneExample
     },
     conjugationProviders: {
         nb: nbGetOrdbokeneConjugation

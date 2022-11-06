@@ -8,8 +8,8 @@ export default function Flashcards(props) {
     const [wordList, setWordList] = useState('');
     const [flashcards, setFlashcards] = useState({});
 
-    function handleChange(event) {
-        //handler   
+    function handleFlashcardComplete(flashcardData) {
+        console.log("FLASHCARD COMPLETED");
     }
     
     return (
@@ -22,7 +22,8 @@ export default function Flashcards(props) {
                 <LookupWord language={props.language} 
                 supportedConfigs={props.supportedConfigs} 
                 flashcardMode={true} 
-                word="elske"/>
+                word="elske"
+                handleFlashcardComplete={handleFlashcardComplete}/>
         </div>
     )
 };

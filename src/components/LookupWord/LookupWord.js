@@ -1,7 +1,6 @@
 import React from 'react';
 import ProviderContainer from "../Providers/ProviderContainer";
 import {useState} from "react";
-import {Mutex} from 'async-mutex';
 
 export default function LookupWord(props) {
 
@@ -10,10 +9,6 @@ export default function LookupWord(props) {
     // This will contain a list of all the handlers for Lookup Word click from
     // the child providers
     const [onClickHandlers, setOnClickHandlers] = useState([]);
-
-    // This is used for flashcard mode
-    const mutex = new Mutex();
-    let flashcardCompleted = false;
 
     // This is used when making flashcards. As providers finish processing
     // data for the flashcard they use this to notify LookupWord
@@ -100,68 +95,57 @@ export default function LookupWord(props) {
       */
      function completionHandler(providerName, providerType, html) {
 
+        
         if (props.flashcardMode) {
+            // Add the completion handler for flashcards
+            if (providerType === "Definition") {
+                definitionCompletionStatus[providerName]['isComplete'] = true;
+                definitionCompletionStatus[providerName]['html'] = html;
+            } else if (providerType === "Conjugation") {
+                conjugationCompletionStatus[providerName]['isComplete'] = true;
+                conjugationCompletionStatus[providerName]['html'] = html;
+            } else if (providerType === "Example") {
+                exampleCompletionStatus[providerName]['isComplete'] = true;
+                exampleCompletionStatus[providerName]['html'] = html;
+            } else if (providerType === "Etymology") {
+                etymologyCompletionStatus[providerName]['isComplete'] = true;
+                etymologyCompletionStatus[providerName]['html'] = html;
+            }
 
-            // We use a mutex here to make sure that this only gets called once
-            mutex
-            .acquire()
-            .then(function(release) {
+            console.log(conjugationCompletionStatus);
 
-                // Only do this if the flashcard isn't already completed.
-                if (!flashcardCompleted) {
-                    // Add the completion handler for flashcards
-                    if (providerType === "Definition") {
-                        definitionCompletionStatus[providerName]['isComplete'] = true;
-                        definitionCompletionStatus[providerName]['html'] = html;
-                    } else if (providerType === "Conjugation") {
-                        conjugationCompletionStatus[providerName]['isComplete'] = true;
-                        conjugationCompletionStatus[providerName]['html'] = html;
-                    } else if (providerType === "Example") {
-                        exampleCompletionStatus[providerName]['isComplete'] = true;
-                        exampleCompletionStatus[providerName]['html'] = html;
-                    } else if (providerType === "Etymology") {
-                        etymologyCompletionStatus[providerName]['isComplete'] = true;
-                        etymologyCompletionStatus[providerName]['html'] = html;
-                    }
+            // This tests to see if all the conjugations are complete
+            const conjugationsFinished = Object.entries(conjugationCompletionStatus).filter(conjugation => {
+                return !conjugation[1].isComplete
+            }).length === 0;
 
-                    console.log(conjugationCompletionStatus);
+            // This tests to see if all the definitions are complete
+            const definitionsFinished = Object.entries(definitionCompletionStatus).filter(definition => {
+                return !definition[1].isComplete
+            }).length === 0;
 
-                    // This tests to see if all the conjugations are complete
-                    const conjugationsFinished = Object.entries(conjugationCompletionStatus).filter(conjugation => {
-                        return !conjugation[1].isComplete
-                    }).length === 0;
+            // This tests to see if all the examples are complete
+            const examplesFinished = Object.entries(exampleCompletionStatus).filter(example => {
+                return !example[1].isComplete
+            }).length === 0;
 
-                    // This tests to see if all the definitions are complete
-                    const definitionsFinished = Object.entries(definitionCompletionStatus).filter(definition => {
-                        return !definition[1].isComplete
-                    }).length === 0;
+            // This tests to see if all the etymologies are complete
+            const etymologiesFinished = Object.entries(exampleCompletionStatus).filter(etymology => {
+                return !etymology[1].isComplete
+            }).length === 0;
 
-                    // This tests to see if all the examples are complete
-                    const examplesFinished = Object.entries(exampleCompletionStatus).filter(example => {
-                        return !example[1].isComplete
-                    }).length === 0;
-
-                    // This tests to see if all the etymologies are complete
-                    const etymologiesFinished = Object.entries(exampleCompletionStatus).filter(etymology => {
-                        return !etymology[1].isComplete
-                    }).length === 0;
-
-                    // TODO https://github.com/grantcurell/narjetas/issues/18
-                    setTimeout(() => {
-                        if (conjugationsFinished && examplesFinished && definitionsFinished && etymologiesFinished) {
-                            console.log(`Processing for ${props.word} complete. Returning`);
-                            props.handleFlashcardComplete({
-                                Conjugation: conjugationCompletionStatus,
-                                Definition: definitionCompletionStatus,
-                                Example: exampleCompletionStatus,
-                                etymologyCompletionStatus: etymologyCompletionStatus
-                            })
-                        }
-                    }, 1000);
+            // TODO https://github.com/grantcurell/narjetas/issues/18
+            setTimeout(() => {
+                if (conjugationsFinished && examplesFinished && definitionsFinished && etymologiesFinished) {
+                    console.log(`Processing for ${props.word} complete. Returning`);
+                    props.handleFlashcardComplete({
+                        Conjugation: conjugationCompletionStatus,
+                        Definition: definitionCompletionStatus,
+                        Example: exampleCompletionStatus,
+                        Etymology: etymologyCompletionStatus
+                    })
                 }
-                flashcardCompleted = true; // mark the flashcard finished.
-                release(); // relase the mutex
-            });
+            }, 1000);
         }
 
      }

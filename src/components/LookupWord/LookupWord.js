@@ -143,7 +143,7 @@ export default function LookupWord(props) {
                         Definition: definitionCompletionStatus,
                         Example: exampleCompletionStatus,
                         Etymology: etymologyCompletionStatus
-                    })
+                    }, props.word)
                 }
             }, 1000);
         }
@@ -152,7 +152,7 @@ export default function LookupWord(props) {
 
      // This is used mainly for creating flashcards. If LookupWord is passed
      // a prop then it will automatically begin the lookup rather than waiting
-     if (props.flashcardMode) {
+     if (props.flashcardMode && props.word) {
         onClickHandlers.forEach((callbackFunction) => {
             callbackFunction(word);
         });

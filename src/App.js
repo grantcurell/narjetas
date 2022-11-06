@@ -11,6 +11,22 @@ import Flashcards from './components/Flashcards/Flashcards';
 
 function App() {
 
+  let flashCardWordList = [];
+  
+  function setWordList(list) {
+    flashCardWordList = list;
+    return flashCardWordList;
+  }
+
+  function removeFromWordList(removeWord) {
+    flashCardWordList = flashCardWordList.filter(word => word !== removeWord)
+    return flashCardWordList;
+  };
+
+  function getWordList(word) {
+    return flashCardWordList;
+  }
+
   // TODO - Follow up on this with
   // https://stackoverflow.com/questions/74245335/reactjs-run-once-on-component-mount-but-before-return
 
@@ -49,7 +65,7 @@ function App() {
             />
           ))}
           <Route path='flashcards' 
-          element={<Flashcards language={globalSettings.language} supportedConfigs={supportedConfigs}/>}/>
+          element={<Flashcards language={globalSettings.language} supportedConfigs={supportedConfigs} setWordList={setWordList} removeFromWordList={removeFromWordList} getWordList={getWordList}/>}/>
         </Routes>
       </Router>
       <SelectLanguage onChange={handleLanguageChange} />

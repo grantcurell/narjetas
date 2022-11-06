@@ -69,7 +69,8 @@ export default function ProviderContainer(props) {
                             removeOnClickHandler={props.removeOnClickHandler}
                             name={provider[0]}
                             providerType={props.providerType}
-                            providerFunc={provider[1]}/>
+                            providerFunc={provider[1]}
+                            completionHandler={props.completionHandler}/>
                         }
                         return null;
                     }

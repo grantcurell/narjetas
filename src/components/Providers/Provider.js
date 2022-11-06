@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import * as ReactDOMServer from 'react-dom/server';
 
 export function Provider(props) {
     const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +20,7 @@ export function Provider(props) {
             props.providerFunc(word, setData, setIsLoading).then(data => {
                 setData(data);
                 setIsLoading(false);
+                props.completionHandler(props.name, props.providerType, ReactDOMServer.renderToStaticMarkup(data));
             });
         } catch (e) {
             setError(e);
@@ -32,10 +34,10 @@ export function Provider(props) {
     // the component is unmounted remove the handler function from the list.
     useEffect(() => {
         console.debug(`DEBUG: Adding handler for ${props.name}`)
-        props.addOnClickHandler(handlerFunc);
+        props.addOnClickHandler(handlerFunc, props.name, props.providerType);
         return () => {
             console.debug(`DEBUG: Removing handler for ${props.name}`)
-            props.removeOnClickHandler(handlerFunc);
+            props.removeOnClickHandler(handlerFunc, props.name, props.providerType);
         };
     }, []);
 

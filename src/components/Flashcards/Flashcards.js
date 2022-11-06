@@ -6,6 +6,7 @@ import LookupWord from '../LookupWord/LookupWord';
 export default function Flashcards(props) {
 
     const [wordList, setWordList] = useState('');
+    const [flashcards, setFlashcards] = useState({});
 
     function handleChange(event) {
         //handler   
@@ -18,7 +19,10 @@ export default function Flashcards(props) {
                     setWordList(event.target.value);
                 }}
                 value={wordList}/>
-                <LookupWord language={props.language} supportedConfigs={props.supportedConfigs} word="elske"/>
+                <LookupWord language={props.language} 
+                supportedConfigs={props.supportedConfigs} 
+                flashcardMode={true} 
+                word="elske"/>
         </div>
     )
 };

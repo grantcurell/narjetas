@@ -10,6 +10,13 @@ export default function LookupWord(props) {
     // the child providers
     const [onClickHandlers, setOnClickHandlers] = useState([]);
 
+    // This is used when making flashcards. As providers finish processing
+    // data for the flashcard they use this to notify LookupWord
+    const [conjugationCompletionStatus, setConjugationCompletionStatus] = useState({});
+    const [definitionCompletionStatus, setDefinitionCompletionStatus] = useState({});
+    const [exampleCompletionStatus, setExampleCompletionStatus] = useState({});
+    const [etymologyCompletionStatus, setEtymologyCompletionStatus] = useState({});
+
     let ConjugationProviders = {};
     let DefinitionProviders = {};
     let ExampleProviders = {};
@@ -43,19 +50,127 @@ export default function LookupWord(props) {
         });
     };
 
-    const addOnClickHandler = (handler) => {
+    const addOnClickHandler = (handler, providerName, providerType) => {
         setOnClickHandlers((prev) => {
             return [handler, ...prev];
         });
+        
+        // Add the completion handler for flashcards
+        if (providerType === "Definition") {
+            setDefinitionCompletionStatus((prev) => {
+                return {[providerName]: {isComplete: false, html: null}, ...prev};
+            });
+        } else if (providerType === "Conjugation") {
+            setConjugationCompletionStatus((prev) => {
+                return {[providerName]: {isComplete: false, html: null}, ...prev};
+            });
+        } else if (providerType === "Example") {
+            setExampleCompletionStatus((prev) => {
+                return {[providerName]: {isComplete: false, html: null}, ...prev};
+            });
+        } else if (providerType === "Etymology") {
+            setEtymologyCompletionStatus((prev) => {
+                return {[providerName]: {isComplete: false, html: null}, ...prev};
+            });
+        }
     };
 
-    const removeOnClickHandler = (handler) => {
+    const removeOnClickHandler = (handler, providerName, providerType) => {
         setOnClickHandlers((prev) => {
             return prev.filter((prevHandler) => handler !== prevHandler);
        });
-       onClickHandlers.pop(handler);
+       //onClickHandlers.pop(handler);
        console.debug(`DEBUG: Handler list after remove is ${onClickHandlers}`);
+
+        // Add the completion handler for flashcards
+        if (providerType === "Definition") {
+            setDefinitionCompletionStatus((prev) => {
+                return Object.keys(prev)
+                    .filter((key) => key.includes(providerName))
+                    .reduce((obj, key) => {
+                        return Object.assign(obj, {
+                        [key]: prev[key]
+                        });
+                }, {});
+            });
+        } else if (providerType === "Conjugation") {
+            setConjugationCompletionStatus((prev) => {
+                return Object.keys(prev)
+                    .filter((key) => key.includes(providerName))
+                    .reduce((obj, key) => {
+                        return Object.assign(obj, {
+                        [key]: prev[key]
+                        });
+                }, {});
+            });
+        } else if (providerType === "Example") {
+            setExampleCompletionStatus((prev) => {
+                return Object.keys(prev)
+                    .filter((key) => key.includes(providerName))
+                    .reduce((obj, key) => {
+                        return Object.assign(obj, {
+                        [key]: prev[key]
+                        });
+                }, {});
+            });
+        } else if (providerType === "Etymology") {
+            setEtymologyCompletionStatus((prev) => {
+                return Object.keys(prev)
+                    .filter((key) => key.includes(providerName))
+                    .reduce((obj, key) => {
+                        return Object.assign(obj, {
+                        [key]: prev[key]
+                        });
+                }, {});
+            });
+        }
      };
+
+     function completionHandler(providerName, providerType, html) {
+
+        // Add the completion handler for flashcards
+        if (providerType === "Definition") {
+            setDefinitionCompletionStatus((prev) => {
+                console.debug(definitionCompletionStatus);
+                return {[providerName]: {isComplete: true, html: html}, ...prev};
+            });
+        } else if (providerType === "Conjugation") {
+            setConjugationCompletionStatus((prev) => {
+                console.debug(conjugationCompletionStatus);
+                return {[providerName]: {isComplete: true, html: html}, ...prev};
+            });
+        } else if (providerType === "Example") {
+            setExampleCompletionStatus((prev) => {
+                console.debug(exampleCompletionStatus);
+                return {[providerName]: {isComplete: true, html: html}, ...prev};
+            });
+        } else if (providerType === "Etymology") {
+            setEtymologyCompletionStatus((prev) => {
+                console.debug(etymologyCompletionStatus);
+                return {[providerName]: {isComplete: true, html: html}, ...prev};
+            });
+        }
+
+        console.log(conjugationCompletionStatus);
+
+        Object.entries(conjugationCompletionStatus).filter(conjugation => {
+            console.log("FUCK JAVASCRIPT")
+            return !conjugation.isComplete
+        })
+
+        if (null) {
+            console.log("Conjugations complete")
+            console.log(conjugationCompletionStatus.toString());
+        }
+     }
+
+     // This is used mainly for creating flashcards. If LookupWord is passed
+     // a prop then it will automatically begin the lookup rather than waiting
+     if (props.flashcardMode) {
+        onClickHandlers.forEach((callbackFunction) => {
+            callbackFunction(word);
+        });
+     }
 
     // render the component collection
     return(
@@ -66,7 +181,8 @@ export default function LookupWord(props) {
                                        Providers={ConjugationProviders}
                                        providerType="Conjugation"
                                        addOnClickHandler={addOnClickHandler}
-                                       removeOnClickHandler={removeOnClickHandler}/>
+                                       removeOnClickHandler={removeOnClickHandler}
+                                       completionHandler={completionHandler}/>
                     : null
             }
             {
@@ -75,7 +191,8 @@ export default function LookupWord(props) {
                                        Providers={DefinitionProviders}
                                        providerType="Definition"
                                        addOnClickHandler={addOnClickHandler}
-                                       removeOnClickHandler={removeOnClickHandler}/>
+                                       removeOnClickHandler={removeOnClickHandler}
+                                       completionHandler={completionHandler}/>
                     : null
             }
             {
@@ -84,7 +201,8 @@ export default function LookupWord(props) {
                                        Providers={ExampleProviders}
                                        providerType="Example"
                                        addOnClickHandler={addOnClickHandler}
-                                       removeOnClickHandler={removeOnClickHandler}/>
+                                       removeOnClickHandler={removeOnClickHandler}
+                                       completionHandler={completionHandler}/>
                     : null
             }
             {
@@ -93,15 +211,17 @@ export default function LookupWord(props) {
                                        Providers={EtymologyProviders}
                                        providerType="Etymology"
                                        addOnClickHandler={addOnClickHandler}
-                                       removeOnClickHandler={removeOnClickHandler}/>
+                                       removeOnClickHandler={removeOnClickHandler}
+                                       completionHandler={completionHandler}/>
                     : null
             }
             { // Only render the lookup word button if at least one provider
-              // is available
-                Object.keys(ConjugationProviders).length > 0 ||
+              // is available and if we are not in flashcard mode
+                !props.flashcardMode &&
+                (Object.keys(ConjugationProviders).length > 0 ||
                 Object.keys(DefinitionProviders).length > 0 ||
                 Object.keys(ExampleProviders).length > 0 ||
-                Object.keys(EtymologyProviders).length > 0 ?
+                Object.keys(EtymologyProviders).length > 0) ?
                     <div>
                         <label htmlFor='word'>Word: </label>
                         <input id='word' 

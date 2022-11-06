@@ -41,6 +41,7 @@ export default function ProviderContainer(props) {
         })
     : "";
 
+    // TODO https://github.com/grantcurell/narjetas/issues/22
     return (
         <div>
             {!props.flashcardMode ? <div className="checkList">

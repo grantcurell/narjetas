@@ -2,6 +2,7 @@ import React from 'react';
 import {useState} from "react";
 import LookupWord from '../LookupWord/LookupWord';
 import { Mutex } from 'async-mutex';
+import Download from '../Download/Download'
 
 export default function Flashcards(props) {
 
@@ -9,7 +10,9 @@ export default function Flashcards(props) {
                             // convert to an array
     const [wordToProcess, setWordToProcess] = useState();
     const [wordList, setWordList] = useState('');
-    const [toggle, setToggle] = useState(false);
+    const [htmlText, setHtmlText] = useState('');
+    const [toggle, setToggle] = useState(true);
+    const [readyToDownload, setReadyToDownload] = useState(false);
     const mutex = new Mutex();
     let flashcardData = {};
 
@@ -25,8 +28,9 @@ export default function Flashcards(props) {
                 if (props.getWordList().length === 1) {
                     setToggle(false);
                     createFile();
+                } else {
+                    setWordToProcess(props.removeFromWordList(word));
                 }
-                setWordToProcess(props.removeFromWordList(word));
             } 
             release();
         });
@@ -39,22 +43,7 @@ export default function Flashcards(props) {
 
     function handleToggle() {
         setWordToProcess(props.getWordList()[0]);
-        setToggle(true);
     }
-
-    /*
-    function download(filename, text) {
-        let element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
-      
-        element.style.display = 'none';
-        document.body.appendChild(element);
-      
-        element.click();
-      
-        document.body.removeChild(element);
-    }*/
       
 
     function createFile() {
@@ -97,27 +86,33 @@ export default function Flashcards(props) {
             outputString += '\n';
         });
 
-
+        setHtmlText(outputString);
+        setReadyToDownload(true);
 
     }
     
     return (
         <div>
-            <textarea name="body"
-                onChange={handleKeys}
-                value={wordList}/>
-            { wordList !== '' ? // Don't render the button without the wordList being populated
+            {!readyToDownload && setToggle?
             <div>
-                <button onClick={handleToggle}>Create Flashcards</button>
+                <textarea name="body"
+                    onChange={handleKeys}
+                    value={wordList}/>
+                { wordList !== '' ? // Don't render the button without the wordList being populated
+                <div>
+                    <button onClick={handleToggle}>Create Flashcards</button>
+                </div>
+                : null}
+                {toggle ? <h1>Currently processing {wordToProcess}</h1> : null}
+                <LookupWord language={props.language} 
+                    supportedConfigs={props.supportedConfigs} 
+                    flashcardMode={true} 
+                    word={wordToProcess}
+                    key={wordToProcess}
+                    handleFlashcardComplete={handleFlashcardComplete}/>
             </div>
             : null}
-            {toggle ? <h1>Currently processing {wordToProcess}</h1> : null}
-            <LookupWord language={props.language} 
-                supportedConfigs={props.supportedConfigs} 
-                flashcardMode={true} 
-                word={wordToProcess}
-                key={wordToProcess}
-                handleFlashcardComplete={handleFlashcardComplete}/>
+            {readyToDownload ? <Download text={htmlText}/> : null}
         </div>
     )
 };

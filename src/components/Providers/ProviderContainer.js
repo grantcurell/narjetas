@@ -43,7 +43,7 @@ export default function ProviderContainer(props) {
 
     return (
         <div>
-            <div className="checkList">
+            {!props.flashcardMode ? <div className="checkList">
                 <div className="title">{props.providerType} Providers:</div>
                 <div className="list-container">
                     {Object.entries(props.Providers).map((item, index) => (
@@ -58,7 +58,7 @@ export default function ProviderContainer(props) {
                         </div>
                     ))}
                 </div>
-            </div>
+            </div>: null}
 
             <div > {
                 Object.entries(props.Providers).map((provider, index) => {

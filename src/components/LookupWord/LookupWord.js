@@ -168,7 +168,8 @@ export default function LookupWord(props) {
                                        providerType="Conjugation"
                                        addOnClickHandler={addOnClickHandler}
                                        removeOnClickHandler={removeOnClickHandler}
-                                       completionHandler={completionHandler}/>
+                                       completionHandler={completionHandler}
+                                       flashcardMode={props.flashcardMode}/>
                     : null
             }
             {
@@ -178,7 +179,8 @@ export default function LookupWord(props) {
                                        providerType="Definition"
                                        addOnClickHandler={addOnClickHandler}
                                        removeOnClickHandler={removeOnClickHandler}
-                                       completionHandler={completionHandler}/>
+                                       completionHandler={completionHandler}
+                                       flashcardMode={props.flashcardMode}/>
                     : null
             }
             {
@@ -188,7 +190,8 @@ export default function LookupWord(props) {
                                        providerType="Example"
                                        addOnClickHandler={addOnClickHandler}
                                        removeOnClickHandler={removeOnClickHandler}
-                                       completionHandler={completionHandler}/>
+                                       completionHandler={completionHandler}
+                                       flashcardMode={props.flashcardMode}/>
                     : null
             }
             {
@@ -198,7 +201,8 @@ export default function LookupWord(props) {
                                        providerType="Etymology"
                                        addOnClickHandler={addOnClickHandler}
                                        removeOnClickHandler={removeOnClickHandler}
-                                       completionHandler={completionHandler}/>
+                                       completionHandler={completionHandler}
+                                       flashcardMode={props.flashcardMode}/>
                     : null
             }
             { // Only render the lookup word button if at least one provider

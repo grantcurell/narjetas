@@ -12,10 +12,10 @@ export default function LookupWord(props) {
 
     // This is used when making flashcards. As providers finish processing
     // data for the flashcard they use this to notify LookupWord
-    const [conjugationCompletionStatus, setConjugationCompletionStatus] = useState({});
-    const [definitionCompletionStatus, setDefinitionCompletionStatus] = useState({});
-    const [exampleCompletionStatus, setExampleCompletionStatus] = useState({});
-    const [etymologyCompletionStatus, setEtymologyCompletionStatus] = useState({});
+    const conjugationCompletionStatus = {};
+    const definitionCompletionStatus = {};
+    const exampleCompletionStatus = {};
+    const etymologyCompletionStatus = {};
 
     let ConjugationProviders = {};
     let DefinitionProviders = {};
@@ -57,21 +57,13 @@ export default function LookupWord(props) {
         
         // Add the completion handler for flashcards
         if (providerType === "Definition") {
-            setDefinitionCompletionStatus((prev) => {
-                return {[providerName]: {isComplete: false, html: null}, ...prev};
-            });
+            definitionCompletionStatus[providerName] = {isComplete: false, html: null};
         } else if (providerType === "Conjugation") {
-            setConjugationCompletionStatus((prev) => {
-                return {[providerName]: {isComplete: false, html: null}, ...prev};
-            });
+            conjugationCompletionStatus[providerName] = {isComplete: false, html: null};
         } else if (providerType === "Example") {
-            setExampleCompletionStatus((prev) => {
-                return {[providerName]: {isComplete: false, html: null}, ...prev};
-            });
+            exampleCompletionStatus[providerName] = {isComplete: false, html: null};
         } else if (providerType === "Etymology") {
-            setEtymologyCompletionStatus((prev) => {
-                return {[providerName]: {isComplete: false, html: null}, ...prev};
-            });
+            etymologyCompletionStatus[providerName] = {isComplete: false, html: null};
         }
     };
 
@@ -84,45 +76,13 @@ export default function LookupWord(props) {
 
         // Add the completion handler for flashcards
         if (providerType === "Definition") {
-            setDefinitionCompletionStatus((prev) => {
-                return Object.keys(prev)
-                    .filter((key) => key.includes(providerName))
-                    .reduce((obj, key) => {
-                        return Object.assign(obj, {
-                        [key]: prev[key]
-                        });
-                }, {});
-            });
+            delete definitionCompletionStatus[providerName];
         } else if (providerType === "Conjugation") {
-            setConjugationCompletionStatus((prev) => {
-                return Object.keys(prev)
-                    .filter((key) => key.includes(providerName))
-                    .reduce((obj, key) => {
-                        return Object.assign(obj, {
-                        [key]: prev[key]
-                        });
-                }, {});
-            });
+            delete conjugationCompletionStatus[providerName];
         } else if (providerType === "Example") {
-            setExampleCompletionStatus((prev) => {
-                return Object.keys(prev)
-                    .filter((key) => key.includes(providerName))
-                    .reduce((obj, key) => {
-                        return Object.assign(obj, {
-                        [key]: prev[key]
-                        });
-                }, {});
-            });
+            delete exampleCompletionStatus[providerName];
         } else if (providerType === "Etymology") {
-            setEtymologyCompletionStatus((prev) => {
-                return Object.keys(prev)
-                    .filter((key) => key.includes(providerName))
-                    .reduce((obj, key) => {
-                        return Object.assign(obj, {
-                        [key]: prev[key]
-                        });
-                }, {});
-            });
+            delete etymologyCompletionStatus[providerName];
         }
      };
 
@@ -130,37 +90,39 @@ export default function LookupWord(props) {
 
         // Add the completion handler for flashcards
         if (providerType === "Definition") {
-            setDefinitionCompletionStatus((prev) => {
-                console.debug(definitionCompletionStatus);
-                return {[providerName]: {isComplete: true, html: html}, ...prev};
-            });
+            definitionCompletionStatus[providerName]['isComplete'] = true;
         } else if (providerType === "Conjugation") {
-            setConjugationCompletionStatus((prev) => {
-                console.debug(conjugationCompletionStatus);
-                return {[providerName]: {isComplete: true, html: html}, ...prev};
-            });
+            conjugationCompletionStatus[providerName]['isComplete'] = true;
         } else if (providerType === "Example") {
-            setExampleCompletionStatus((prev) => {
-                console.debug(exampleCompletionStatus);
-                return {[providerName]: {isComplete: true, html: html}, ...prev};
-            });
+            exampleCompletionStatus[providerName]['isComplete'] = true;
         } else if (providerType === "Etymology") {
-            setEtymologyCompletionStatus((prev) => {
-                console.debug(etymologyCompletionStatus);
-                return {[providerName]: {isComplete: true, html: html}, ...prev};
-            });
+            etymologyCompletionStatus[providerName]['isComplete'] = true;
         }
 
         console.log(conjugationCompletionStatus);
 
-        Object.entries(conjugationCompletionStatus).filter(conjugation => {
-            console.log("FUCK JAVASCRIPT")
-            return !conjugation.isComplete
-        })
+        // This tests to see if all the conjugations are complete
+        const conjugationsFinished = Object.entries(conjugationCompletionStatus).filter(conjugation => {
+            return !conjugation[1].isComplete
+        }).length === 0;
 
-        if (null) {
-            console.log("Conjugations complete")
-            console.log(conjugationCompletionStatus.toString());
+        // This tests to see if all the definitions are complete
+        const definitionsFinished = Object.entries(definitionCompletionStatus).filter(definition => {
+            return !definition[1].isComplete
+        }).length === 0;
+
+        // This tests to see if all the examples are complete
+        const examplesFinished = Object.entries(exampleCompletionStatus).filter(example => {
+            return !example[1].isComplete
+        }).length === 0;
+
+        // This tests to see if all the etymologies are complete
+        const etymologiesFinished = Object.entries(exampleCompletionStatus).filter(etymology => {
+            return !etymology[1].isComplete
+        }).length === 0;
+
+        if (conjugationsFinished && examplesFinished && definitionsFinished && etymologiesFinished) {
+            console.log(`Processing for ${props.word} complete. Returning`);
         }
      }
 

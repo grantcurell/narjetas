@@ -43,8 +43,6 @@ async function getUrl(url, driver, elementClass = null, elementId = null){
     
             driver.wait(until.elementLocated(By.className(`${elementClass}`)), LOOKUP_TIMEOUT).then(() => {
 
-                driver.findElement(By.className(`${elementClass}`)).click();
-
                 driver.findElement(By.className(`${elementClass}`)).getAttribute('outerHTML')
                 .then((source) => {
 
@@ -65,8 +63,6 @@ async function getUrl(url, driver, elementClass = null, elementId = null){
         responsePromise = new Promise((resolve, reject) => {
     
             driver.wait(until.elementLocated(By.id(`${elementId}`)), LOOKUP_TIMEOUT).then(() => {
-
-                driver.findElement(By.id(`${elementId}`)).click();
 
                 driver.findElement(By.id(`${elementId}`)).getAttribute('outerHTML')
                 .then((source) => {
@@ -109,7 +105,7 @@ app.get('/geturl/:url', function(req, res) {
     let driver = new Builder()
     .forBrowser('chrome')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
-    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     getUrl(req.params.url, driver).then(html => {
@@ -132,7 +128,7 @@ app.get('/geturlwithclass/:url/:class', function(req, res) {
     let driver = new Builder()
     .forBrowser('chrome')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
-    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     getUrl(req.params.url, driver, req.params.class, null).then(html => {
@@ -155,8 +151,8 @@ app.get('/geturlwithid/:url/:id', function(req, res) {
 
     let driver = new Builder()
     .forBrowser('chrome')
-    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
-    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     getUrl(req.params.url, driver, null, req.params.id).then(html => {
@@ -178,7 +174,7 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
     let driver = new Builder()
     .forBrowser('chrome')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
-    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     if (req.params.type === "conjugation") {

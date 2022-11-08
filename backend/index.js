@@ -3,7 +3,8 @@ const chrome = require('selenium-webdriver/chrome');
 const firefox = require('selenium-webdriver/firefox');
 const {Builder, By, Key, until} = require('selenium-webdriver');
 const cors = require('cors');
-const Ordbokene = require('./GetOrdbokene')
+const Ordbokene = require('./GetOrdbokene');
+const Google = require('./GetGoogle');
 
 const screen = {
     width: 640,
@@ -28,6 +29,8 @@ const LOOKUP_TIMEOUT = 5000;
  */
 async function getUrl(url, driver, elementClass = null){
 
+    // Used https://www.lambdatest.com/blog/automation-testing-with-selenium-javascript/
+    // to figure out how to use Selenium here originally
     //To fetch http://google.com from the browser with our code.
     console.info(`INFO: Running getURL for url ${url}`)
     await driver.get(url);
@@ -165,9 +168,29 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
             }, 1000);
         });
     }
-    
+})
 
+app.get('/getgoogle/:searchWord', function(req, res) {
 
+    console.info(`INFO: Processing a request for Google for word ${req.params.searchWord}`)
+    let driver = new Builder()
+    .forBrowser('chrome')
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .build();
+
+    if (req.params.type === "conjugation") {
+        Ordbokene.getGoogleDefinition(driver, req.params.searchWord).then(html => {
+            res.send(html);
+            setTimeout(() => {
+                console.debug("DEBUG: Trying to quit driver.");
+            
+                driver.quit().catch(() => {
+                    console.error("ERROR: Failed to quit driver.");
+                })
+            }, 1000);
+        });
+    }
 })
 
 const server = app.listen(8081, function () {

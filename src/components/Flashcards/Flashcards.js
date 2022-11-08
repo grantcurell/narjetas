@@ -42,6 +42,7 @@ export default function Flashcards(props) {
     }
 
     function handleToggle() {
+        console.info("INFO: Beginning processing of the flashcards!")
         setWordToProcess(props.getWordList()[0]);
     }
       
@@ -52,7 +53,6 @@ export default function Flashcards(props) {
         let outputString = '';
 
         Object.entries(props.getFlashcardData()).forEach(flashcard => {
-            console.log("HERE");
             outputString += flashcard[0];
             outputString += delimiter;
             Object.entries(flashcard[1]['Definition']).map(definition => {

@@ -3,8 +3,6 @@ const chrome = require('selenium-webdriver/chrome');
 const firefox = require('selenium-webdriver/firefox');
 const {Builder, By, Key, until} = require('selenium-webdriver');
 const cors = require('cors');
-const {urlencoded} = require("express");
-const { elementIsVisible } = require('selenium-webdriver/lib/until');
 const Ordbokene = require('./GetOrdbokene')
 
 const screen = {
@@ -18,15 +16,21 @@ let corsOptions = {
 
 const LOOKUP_TIMEOUT = 5000;
 
+/**
+ * Gets a url and returns its html
+ * @param {string} url The URL you want to get
+ * @param {import("selenium-webdriver").ThenableWebDriver} driver A pointer to 
+ * the selenium driver to us
+ * @param {string} elementClass (optional) You may optionally provide a classname
+ * as an argument and it will return the HTML for the element and children of the
+ * element with that specific classname
+ * @returns {Promise} A promise which when resolves has the HTML for the URL
+ */
 async function getUrl(url, driver, elementClass = null){
 
     //To fetch http://google.com from the browser with our code.
-    console.log(`url is ${url}`)
+    console.info(`INFO: Running getURL for url ${url}`)
     await driver.get(url);
-
-    //Verify the page title and print it
-    const title = await driver.getTitle();
-    console.log('Title is:',title);
 
     let responsePromise;
 
@@ -38,21 +42,28 @@ async function getUrl(url, driver, elementClass = null){
 
                 driver.findElement(By.className(`${elementClass}`)).click();
 
-                driver.findElement(By.className(`${elementClass}`)).getAttribute('outerHTML').then((source) => {
+                driver.findElement(By.className(`${elementClass}`)).getAttribute('outerHTML')
+                .then((source) => {
 
                     resolve(source);
 
-                });
+                }).catch((error => {
+                    resolve("No results found!");
+                    console.info(`INFO: Got no results for search url ${url}. Error: ${error}`);
+                }));
             }).catch((error => {
                 resolve("No results found!");
-                console.debug(`Got no results for search url ${url}. Error: ${error}`);
+                console.info(`INFO: Got no results for search url ${url}. Error: ${error}`);
             }))
         });
 
     } else {
         responsePromise = await driver.getPageSource().then((source) => {
             return source;
-        });
+        }).catch((error => {
+            resolve("No results found!");
+            console.info(`INFO: Got no results for search url ${url}. Error: ${error}`);
+        }));
     }
 
     return responsePromise
@@ -63,30 +74,26 @@ const app = express();
 app.use(cors(corsOptions))
 
 app.get('/', function (req, res) {
-    console.log("HERE");
-    res.send('Hello World');
+    console.warn("Received request for / which is not in use.");
 })
 
 app.get('/geturl/:url', function(req, res) {
 
-    console.log("BUILD 1");
+    console.info(`INFO: Processing a request for a URL for ${req.params.url}`);
     let driver = new Builder()
     .forBrowser('chrome')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
-    console.log(req.params)
-    console.log(req.params.url);
-
     getUrl(req.params.url, driver).then(html => {
         res.send(`${html}`);
         setTimeout(() => {
-            console.log("Trying to quit driver.");
+            console.info("INFO: Exiting driver.");
             
-            try {driver.quit();} catch {
-                console.log("Failed to quit driver.");
-            }
+            driver.quit().catch(() => {
+                console.error("ERROR: Failed to quit driver.");
+            })
         }, 1000);
     });
 
@@ -94,24 +101,22 @@ app.get('/geturl/:url', function(req, res) {
 
 app.get('/geturl/:url/:class', function(req, res) {
 
-    console.log("BUILD 1");
+    console.info(`INFO: Processing a request for a URL for ${req.params.url} 
+    looking for class ${req.params.class}`);
     let driver = new Builder()
     .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
-
-    console.log(req.params)
-    console.log(req.params.url);
 
     getUrl(req.params.url, driver, req.params.class).then(html => {
         res.send(`${html}`);
         setTimeout(() => {
-            console.log("Trying to quit driver.");
+            console.debug("DEBUG: Trying to quit driver.");
             
-            try {driver.quit();} catch {
-                console.log("Failed to quit driver.");
-            }
+            driver.quit().catch(() => {
+                console.error("ERROR: Failed to quit driver.");
+            })
         }, 1000);
     });
 
@@ -119,7 +124,7 @@ app.get('/geturl/:url/:class', function(req, res) {
 
 app.get('/getordbokene/:searchWord/:type', function(req, res) {
 
-    console.log("BUILD 2");
+    console.info(`INFO: Processing a request for ordbokene for word ${req.params.searchWord}`)
     let driver = new Builder()
     .forBrowser('chrome')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
@@ -130,21 +135,21 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
         Ordbokene.getOrdbokeneConjugation(driver, req.params.searchWord).then(html => {
             res.send(html);
             setTimeout(() => {
-                console.log("Trying to quit driver.");
+                console.debug("DEBUG: Trying to quit driver.");
             
-                try {driver.quit();} catch {
-                    console.log("Failed to quit driver.");
-                }
+                driver.quit().catch(() => {
+                    console.error("ERROR: Failed to quit driver.");
+                })
             }, 1000);
         });
     } else if (req.params.type === "etymology") {
         Ordbokene.getOrdbokeneEtymology(driver, req.params.searchWord).then(html => {
             res.send(html);
             setTimeout(() => {
-                console.log("Trying to quit driver.");
+                console.debug("DEBUG: Trying to quit driver.");
             
                 try {driver.quit();} catch {
-                    console.log("Failed to quit driver.");
+                    console.error("ERROR: Failed to quit driver.");
                 }
             }, 1000);
         });
@@ -152,11 +157,11 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
         Ordbokene.getOrdbokeneDefs(driver, req.params.searchWord).then(html => {
             res.send(html);
             setTimeout(() => {
-                console.log("Trying to quit driver.");
+                console.debug("DEBUG: Trying to quit driver.");
             
-                try {driver.quit();} catch {
-                    console.log("Failed to quit driver.");
-                }
+                driver.quit().catch(() => {
+                    console.error("ERROR: Failed to quit driver.");
+                })
             }, 1000);
         });
     }

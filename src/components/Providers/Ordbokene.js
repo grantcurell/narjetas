@@ -20,7 +20,16 @@ export const Ordbokene = {
 }
 
 // Norwegian providers
+
+/**
+ * Used to get examples from Ordbokene website
+ * @param {string} searchWord The word you want to search for
+ * @returns {Promise} A promise which when resolved will contain a string with
+ * the output from the website.
+ */
 async function nbGetOrdbokeneExample(searchWord) {
+
+    console.info(`INFO: nbGetOrdbokeneExample: Processing word ${searchWord}`);
 
     let responsePromise = new Promise((resolve, reject) => {
     
@@ -54,7 +63,16 @@ async function nbGetOrdbokeneExample(searchWord) {
     return responsePromise;
 }
 
+/**
+ * Used to get conjugations from Ordbokene website
+ * @param {string} searchWord The word you want to search for
+ * @returns {Promise} A promise which when resolved will contain a string with
+ * the output from the website.
+ */
 async function nbGetOrdbokeneConjugation(searchWord) {
+
+    console.info(`INFO: nbGetOrdbokeneConjugation: Processing word ${searchWord}`);
+
     let responsePromise = new Promise((resolve, reject) => {
     
         fetch(`http://localhost:8081/getordbokene/${searchWord}/conjugation`).then(response => {
@@ -87,7 +105,16 @@ async function nbGetOrdbokeneConjugation(searchWord) {
     return responsePromise;
 }
 
+/**
+ * Used to get etymologies from Ordbokene website
+ * @param {string} searchWord The word you want to search for
+ * @returns {Promise} A promise which when resolved will contain a string with
+ * the output from the website.
+ */
 async function nbGetOrdbokeneEtymology(searchWord) {
+
+    console.info(`INFO: nbGetOrdbokeneEtymology: Processing word ${searchWord}`);
+
     let responsePromise = new Promise((resolve, reject) => {
     
         fetch(`http://localhost:8081/getordbokene/${searchWord}/etymology`).then(response => {

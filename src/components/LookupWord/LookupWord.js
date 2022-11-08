@@ -112,7 +112,7 @@ export default function LookupWord(props) {
                 etymologyCompletionStatus[providerName]['html'] = html;
             }
 
-            console.log(conjugationCompletionStatus);
+            console.debug(`DEBUG: conjugationCompletionStatus: ${conjugationCompletionStatus}`);
 
             // This tests to see if all the conjugations are complete
             const conjugationsFinished = Object.entries(conjugationCompletionStatus).filter(conjugation => {
@@ -137,7 +137,7 @@ export default function LookupWord(props) {
             // TODO https://github.com/grantcurell/narjetas/issues/18
             setTimeout(() => {
                 if (conjugationsFinished && examplesFinished && definitionsFinished && etymologiesFinished) {
-                    console.log(`Processing for ${props.word} complete. Returning`);
+                    console.info(`INFO: Processing for ${props.word} complete. Returning`);
                     props.handleFlashcardComplete({
                         Conjugation: conjugationCompletionStatus,
                         Definition: definitionCompletionStatus,

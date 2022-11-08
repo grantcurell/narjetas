@@ -15,6 +15,9 @@ export const Google = {
 
 // Norwegian providers
 async function nbGetGoogleDefinition(searchWord) {
+
+    console.info(`INFO: nbGetGoogleDefinition: Processing word ${searchWord}`);
+
     const uri = encodeURIComponent(`https://translate.google.com/?sl=no&tl=en&text=${searchWord}&op=translate`);
     let responsePromise = new Promise((resolve, reject) => {
     

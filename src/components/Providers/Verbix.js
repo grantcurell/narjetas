@@ -19,7 +19,17 @@ export const Verbix = {
 }
 
 // Norwegian providers
+
+/**
+ * Used to get examples from Verbix website
+ * @param {string} searchWord The word you want to search for
+ * @returns {Promise} A promise which when resolved will contain a string with
+ * the output from the website.
+ */
 async function nbGetVerbixExample(searchWord) {
+
+    console.info(`INFO: nbGetVerbixExample: Processing word ${searchWord}`);
+
     const uri = encodeURIComponent(`https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
     let responsePromise = new Promise((resolve, reject) => {
     
@@ -58,6 +68,9 @@ async function nbGetVerbixExample(searchWord) {
 }
 
 async function nbGetVerbixConjugation(searchWord) {
+
+    console.info(`INFO: nbGetVerbixConjugation: Processing word ${searchWord}`);
+
     return <span>{<a
     target="_blank"
     rel="noopener"

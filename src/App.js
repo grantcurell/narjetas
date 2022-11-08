@@ -22,10 +22,10 @@ function App() {
 
   function removeFromWordList(removeWord) {
     flashCardWordList = flashCardWordList.filter(word => word !== removeWord)
-    return flashCardWordList;
+    return flashCardWordList[0];
   };
 
-  function getWordList(word) {
+  function getWordList() {
     return flashCardWordList;
   }
 

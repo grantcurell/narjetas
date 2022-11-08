@@ -29,11 +29,11 @@ const LOOKUP_TIMEOUT = 5000;
                 resolve(source);
 
             }).catch((error) => {
-                resolve("No results found!");
+                resolve(`No results found for ${searchWord}!`);
                 console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);                
             });
         }).catch((error => {
-            resolve("No results found!");
+            resolve(`No results found for ${searchWord}!`);
             console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);
         })).finally(() => {
             console.log("HERE");
@@ -72,11 +72,11 @@ const LOOKUP_TIMEOUT = 5000;
                 resolve(source);
 
             }).catch((error) => {
-                resolve("No results found!");
+                resolve(`No results found for ${searchWord}!`);
                 console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);                
             });
         }).catch((error => {
-            resolve("No results found!");
+            resolve(`No results found for ${searchWord}!`);
             console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);
         }))
 
@@ -113,11 +113,11 @@ const LOOKUP_TIMEOUT = 5000;
                 resolve(source);
 
             }).catch((error) => {
-                resolve("No results found!");
+                resolve(`No results found for ${searchWord}!`);
                 console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);                
             });
         }).catch((error => {
-            resolve("No results found!");
+            resolve(`No results found for ${searchWord}!`);
             console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);
         }))
 

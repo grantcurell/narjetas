@@ -24,9 +24,12 @@ const LOOKUP_TIMEOUT = 5000;
  * @param {string} elementClass (optional) You may optionally provide a classname
  * as an argument and it will return the HTML for the element and children of the
  * element with that specific classname
+ * @param {string} elementId (optional) You may optionally provide an id as
+ * an argument and it will return the HTML for the element and children of the
+ * element with that specific id
  * @returns {Promise} A promise which when resolves has the HTML for the URL
  */
-async function getUrl(url, driver, elementClass = null){
+async function getUrl(url, driver, elementClass = null, elementId = null){
 
     //To fetch http://google.com from the browser with our code.
     console.info(`INFO: Running getURL for url ${url}`)
@@ -52,7 +55,30 @@ async function getUrl(url, driver, elementClass = null){
                     console.info(`INFO: Got no results for search url ${url}. Error: ${error}`);
                 }));
             }).catch((error => {
-                resolve("No results found!");
+                resolve(`No results found for class ${elementClass} in url ${url}`);
+                console.info(`INFO: Got no results for search url ${url}. Error: ${error}`);
+            }))
+        });
+
+    } else if (elementId) {
+
+        responsePromise = new Promise((resolve, reject) => {
+    
+            driver.wait(until.elementLocated(By.id(`${elementId}`)), LOOKUP_TIMEOUT).then(() => {
+
+                driver.findElement(By.id(`${elementId}`)).click();
+
+                driver.findElement(By.id(`${elementId}`)).getAttribute('outerHTML')
+                .then((source) => {
+
+                    resolve(source);
+
+                }).catch((error => {
+                    resolve(`No results found for ${searchWord}!`);
+                    console.info(`INFO: Got no results for search url ${url}. Error: ${error}`);
+                }));
+            }).catch((error => {
+                resolve(`No results found for ID ${elementId} in url ${url}`);
                 console.info(`INFO: Got no results for search url ${url}. Error: ${error}`);
             }))
         });
@@ -99,17 +125,41 @@ app.get('/geturl/:url', function(req, res) {
 
 })
 
-app.get('/geturl/:url/:class', function(req, res) {
+app.get('/geturlwithclass/:url/:class', function(req, res) {
 
     console.info(`INFO: Processing a request for a URL for ${req.params.url} 
     looking for class ${req.params.class}`);
+    let driver = new Builder()
+    .forBrowser('chrome')
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
+    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .build();
+
+    getUrl(req.params.url, driver, req.params.class, null).then(html => {
+        res.send(`${html}`);
+        setTimeout(() => {
+            console.debug("DEBUG: Trying to quit driver.");
+            
+            driver.quit().catch(() => {
+                console.error("ERROR: Failed to quit driver.");
+            })
+        }, 1000);
+    });
+
+})
+
+app.get('/geturlwithid/:url/:id', function(req, res) {
+
+    console.info(`INFO: Processing a request for a URL for ${req.params.url} 
+    looking for ID ${req.params.id}`);
+
     let driver = new Builder()
     .forBrowser('chrome')
     //.setChromeOptions(new chrome.Options().headless().windowSize(screen))
     //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
-    getUrl(req.params.url, driver, req.params.class).then(html => {
+    getUrl(req.params.url, driver, null, req.params.id).then(html => {
         res.send(`${html}`);
         setTimeout(() => {
             console.debug("DEBUG: Trying to quit driver.");

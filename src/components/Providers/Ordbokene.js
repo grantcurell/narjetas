@@ -82,6 +82,11 @@ async function nbGetOrdbokeneConjugation(searchWord) {
                     let dummyDOM = document.createElement( 'html' );
                     dummyDOM.innerHTML = text;
                     const html = dummyDOM.getElementsByClassName("inflection-wrapper");
+
+                    // Remove extraneous buttons
+                    Object.entries(dummyDOM.getElementsByClassName("show-inflection")).forEach((button) => {
+                        button[1].remove();
+                    })
     
                     let htmlString = "";
                     for (let i = 0; i < html.length ; i++) {

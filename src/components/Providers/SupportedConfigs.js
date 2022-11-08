@@ -5,11 +5,13 @@ import { etymologies } from "./WordProperties/Etymologies/Etymologies"
 import { Verbix } from "./Verbix";
 import {Ordbokene} from "./Ordbokene";
 import {Google} from "./Google";
+import {Dict} from "./Dict";
 
 const providers = [
     Verbix,
     Ordbokene,
-    Google
+    Google,
+    Dict
 ];
 
 /**

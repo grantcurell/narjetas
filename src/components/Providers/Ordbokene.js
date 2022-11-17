@@ -47,7 +47,8 @@ async function nbGetOrdbokeneExample(searchWord) {
                     }
     
                     if (htmlString === "") {
-                        resolve(<span>No results found!</span>)
+                        resolve('')
+                        console.info(`INFO: Ordbokene example: no results found for ${searchWord}`);
                     } else {
                         resolve(ReactHtmlParser (htmlString));
                     }
@@ -94,7 +95,8 @@ async function nbGetOrdbokeneConjugation(searchWord) {
                     }
     
                     if (htmlString === "") {
-                        resolve(<span>No results found!</span>)
+                        resolve('');
+                        console.info(`INFO: Ordbokene conjugation: no results found for ${searchWord}`);
                     } else {
                         resolve(ReactHtmlParser (htmlString.replace(/\n/g, '<br>').replace(/\\n/g, '<br>')));
                     }
@@ -136,7 +138,8 @@ async function nbGetOrdbokeneEtymology(searchWord) {
                     }
     
                     if (htmlString === "") {
-                        resolve(<span>No results found!</span>)
+                        resolve('');
+                        console.info(`INFO: Ordbokene etymology: no results found for ${searchWord}`);
                     } else {
                         resolve(ReactHtmlParser (htmlString));
                     }

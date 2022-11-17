@@ -15,6 +15,11 @@ export const Dict = {
     name: "Dict"
 }
 
+// Function to generate random number in an interval
+function randomNumber(min, max) { 
+    return Math.random() * (max - min) + min;
+} 
+
 // Norwegian providers
 async function nbGetDictDefinition(searchWord) {
 
@@ -23,7 +28,7 @@ async function nbGetDictDefinition(searchWord) {
     const uri = encodeURIComponent(`https://www.dict.com/norwegian-english/${searchWord}`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/geturlwithid/${uri}/entry-wrapper`).then(response => {
+        setTimeout(() => fetch(`http://localhost:8081/geturlwithid/${uri}/entry-wrapper`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
@@ -42,19 +47,25 @@ async function nbGetDictDefinition(searchWord) {
                         adbygoogle[1].remove();
                     })
     
-                    let htmlString = "";
+                    let htmlString = "";   
                     for (let i = 0; i < html.length ; i++) {
                         htmlString += html[i].outerHTML;
                     }
-    
-                    resolve(ReactHtmlParser (htmlString));
+
+                    if (htmlString === "") {
+                        resolve('');
+                        console.info(`INFO: Dict definition: no results found for ${searchWord}`);
+                    } else {
+                        resolve(ReactHtmlParser (htmlString));
+                    }
+
                 });
             } else {
                 // TODO - need to handle this better
                 // https://github.com/grantcurell/narjetas/issues/8
                 reject("There was an error.");
             }
-        });
+        }), randomNumber(2000, 10000));
     });
 
     return responsePromise;
@@ -67,7 +78,7 @@ async function nbGetDictExample(searchWord) {
     const uri = encodeURIComponent(`https://www.dict.com/norwegian-english/${searchWord}`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/geturlwithclass/${uri}/fulltext`).then(response => {
+        setTimeout(() => fetch(`http://localhost:8081/geturlwithclass/${uri}/fulltext`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
@@ -80,14 +91,19 @@ async function nbGetDictExample(searchWord) {
                         htmlString += html[i].outerHTML;
                     }
     
-                    resolve(ReactHtmlParser (htmlString));
+                    if (htmlString === "") {
+                        resolve('')
+                        console.info(`INFO: Dict example: no results found for ${searchWord}`);
+                    } else {
+                        resolve(ReactHtmlParser (htmlString));
+                    }
                 });
             } else {
                 // TODO - need to handle this better
                 // https://github.com/grantcurell/narjetas/issues/8
                 reject("There was an error.");
             }
-        });
+        }), randomNumber(2000, 10000));
     });
 
     return responsePromise;

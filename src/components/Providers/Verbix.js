@@ -50,7 +50,8 @@ async function nbGetVerbixExample(searchWord) {
                     }
     
                     if (htmlString === "") {
-                        resolve("No results found!");
+                        resolve("");
+                        console.info(`INFO: Verbix example: no results found for ${searchWord}`);
                     } else {
                         resolve(ReactHtmlParser (htmlString));
                     }

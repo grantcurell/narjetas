@@ -28,7 +28,7 @@ async function nbGetDictDefinition(searchWord) {
     const uri = encodeURIComponent(`https://www.dict.com/norwegian-english/${searchWord}`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        setTimeout(() => fetch(`http://localhost:8081/geturlwithid/${uri}/entry-wrapper`).then(response => {
+        setTimeout(() => fetch(`http://192.168.1.15:8081/geturlwithid/${uri}/entry-wrapper`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
@@ -106,7 +106,7 @@ async function nbGetDictExample(searchWord) {
     const uri = encodeURIComponent(`https://www.dict.com/norwegian-english/${searchWord}`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        setTimeout(() => fetch(`http://localhost:8081/geturlwithid/${uri}/entry-wrapper`).then(response => {
+        setTimeout(() => fetch(`http://192.168.1.15:8081/geturlwithid/${uri}/entry-wrapper`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 

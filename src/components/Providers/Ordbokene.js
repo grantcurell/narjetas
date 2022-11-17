@@ -33,7 +33,7 @@ async function nbGetOrdbokeneExample(searchWord) {
 
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/getordbokene/${searchWord}/example`).then(response => {
+        fetch(`http://192.168.1.15:8081/getordbokene/${searchWord}/example`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
@@ -76,7 +76,7 @@ async function nbGetOrdbokeneConjugation(searchWord) {
 
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/getordbokene/${searchWord}/conjugation`).then(response => {
+        fetch(`http://192.168.1.15:8081/getordbokene/${searchWord}/conjugation`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
@@ -124,7 +124,7 @@ async function nbGetOrdbokeneEtymology(searchWord) {
 
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/getordbokene/${searchWord}/etymology`).then(response => {
+        fetch(`http://192.168.1.15:8081/getordbokene/${searchWord}/etymology`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 

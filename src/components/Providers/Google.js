@@ -21,7 +21,7 @@ async function nbGetGoogleDefinition(searchWord) {
     const uri = encodeURIComponent(`https://translate.google.com/?sl=no&tl=en&text=${searchWord}&op=translate`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/geturlwithclass/${uri}/ryNqvb`).then(response => {
+        fetch(`http://192.168.1.15:8081/geturlwithclass/${uri}/ryNqvb`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 

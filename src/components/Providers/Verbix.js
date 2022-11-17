@@ -33,7 +33,7 @@ async function nbGetVerbixExample(searchWord) {
     const uri = encodeURIComponent(`https://www.verbix.com/webverbix/go.php?&D1=25&T1=${searchWord}`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        fetch(`http://localhost:8081/geturl/${uri}`).then(response => {
+        fetch(`http://192.168.1.15:8081/geturl/${uri}`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 

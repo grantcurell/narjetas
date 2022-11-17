@@ -35,9 +35,7 @@ const LOOKUP_TIMEOUT = 5000;
         }).catch((error => {
             resolve(`No results found for ${searchWord}!`);
             console.debug(`Got no results for search word ${searchWord}. Error: ${error}`);
-        })).finally(() => {
-            console.log("HERE");
-        })
+        }))
 
     });
 

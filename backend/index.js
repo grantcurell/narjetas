@@ -105,7 +105,7 @@ app.get('/geturl/:url', function(req, res) {
     let driver = new Builder()
     .forBrowser('firefox')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
-    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     getUrl(req.params.url, driver).then(html => {
@@ -128,7 +128,7 @@ app.get('/geturlwithclass/:url/:class', function(req, res) {
     let driver = new Builder()
     .forBrowser('firefox')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
-    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     getUrl(req.params.url, driver, req.params.class, null).then(html => {
@@ -152,7 +152,7 @@ app.get('/geturlwithid/:url/:id', function(req, res) {
     let driver = new Builder()
     .forBrowser('firefox')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
-    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     getUrl(req.params.url, driver, null, req.params.id).then(html => {
@@ -174,7 +174,7 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
     let driver = new Builder()
     .forBrowser('firefox')
     .setChromeOptions(new chrome.Options().headless().windowSize(screen))
-    //.setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
+    .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
     if (req.params.type === "conjugation") {

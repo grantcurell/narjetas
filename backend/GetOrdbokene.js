@@ -1,4 +1,4 @@
-const {Builder, By, Key, until} = require('selenium-webdriver');
+const {By, until} = require('selenium-webdriver');
 
 const LOOKUP_TIMEOUT = 5000;
 

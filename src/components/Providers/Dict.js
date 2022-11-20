@@ -40,22 +40,50 @@ async function nbGetDictDefinition(searchWord) {
 
                     let dummyDOM = document.createElement( 'html' );
                     dummyDOM.innerHTML = text;
-                    const html = dummyDOM.getElementsByClassName("imrighthere");
+                    const html = dummyDOM.getElementsByClassName("lex_ful_tran");
 
+                    /*
                     // Remove Google ads
                     Object.entries(dummyDOM.getElementsByClassName("adsbygoogle")).forEach((adbygoogle) => {
                         adbygoogle[1].remove();
                     })
+
+                    Object.entries(dummyDOM.getElementsByClassName("head")).forEach((head) => {
+                        head[1].remove();
+                    })
+
+                    Object.entries(dummyDOM.getElementsByClassName("lex_ful_samp2")).forEach((lex_ful_samp2) => {
+                        lex_ful_samp2[1].remove();
+                    })
+
+                    Object.entries(dummyDOM.getElementsByClassName("lex_ful_coll2")).forEach((lex_ful_coll2) => {
+                        lex_ful_coll2[1].remove();
+                    })*/
     
                     let htmlString = "";   
                     for (let i = 0; i < html.length ; i++) {
-                        htmlString += html[i].outerHTML;
+                        htmlString += html[i].outerHTML + '<br />';
                     }
 
                     if (htmlString === "") {
                         resolve('');
                         console.info(`INFO: Dict definition: no results found for ${searchWord}`);
                     } else {
+                        /*
+                        if (htmlString.includes(searchWord)) {
+                            // break the textblock into an array of lines
+                            const lines = htmlString.split('\n');
+                            // remove one line, starting at the first position
+                            lines.filter((line) => {
+                                if (line.includes(searchWord)) {
+                                    return false;
+                                }
+                                return true;
+                            })
+                            // join the array back into a single string
+                            htmlString = lines.join('\n');
+                        }*/
+                        htmlString.replace(searchWord, "");
                         resolve(ReactHtmlParser (htmlString));
                     }
 
@@ -78,17 +106,20 @@ async function nbGetDictExample(searchWord) {
     const uri = encodeURIComponent(`https://www.dict.com/norwegian-english/${searchWord}`);
     let responsePromise = new Promise((resolve, reject) => {
     
-        setTimeout(() => fetch(`http://localhost:8081/geturlwithclass/${uri}/fulltext`).then(response => {
+        setTimeout(() => fetch(`http://localhost:8081/geturlwithid/${uri}/entry-wrapper`).then(response => {
             if (response.status==200) {
                 responsePromise = response.text().then(text => {
 
+                    text = text.replace('lex_ful_coll2', 'imrighthere')
+                               .replace('lex_ful_samp2', 'imrighthere');
+
                     let dummyDOM = document.createElement( 'html' );
                     dummyDOM.innerHTML = text;
-                    const html = dummyDOM.getElementsByClassName("fulltext");
+                    const html = dummyDOM.getElementsByClassName("imrighthere");
     
                     let htmlString = "";
                     for (let i = 0; i < html.length ; i++) {
-                        htmlString += html[i].outerHTML;
+                        htmlString += html[i].outerHTML + '<br />';
                     }
     
                     if (htmlString === "") {

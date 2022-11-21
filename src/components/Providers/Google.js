@@ -2,7 +2,7 @@ import ReactHtmlParser from 'react-html-parser';
 
 export const Google = {
     definitionProviders: {
-        //nb: nbGetGoogleDefinition
+        nb: nbGetGoogleDefinition
     },
     exampleProviders: {},
     conjugationProviders: {},
@@ -33,6 +33,8 @@ async function nbGetGoogleDefinition(searchWord) {
                     for (let i = 0; i < html.length ; i++) {
                         htmlString += html[i].outerHTML;
                     }
+
+                    htmlString = 'Google Translate: ' + htmlString + '<br />';
     
                     resolve(ReactHtmlParser (htmlString));
                 });

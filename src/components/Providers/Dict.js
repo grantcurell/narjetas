@@ -93,7 +93,7 @@ async function nbGetDictDefinition(searchWord) {
                 // https://github.com/grantcurell/narjetas/issues/8
                 reject("There was an error.");
             }
-        }), randomNumber(10, 11));
+        }), randomNumber(2000, 5000));
     });
 
     return responsePromise;
@@ -134,7 +134,7 @@ async function nbGetDictExample(searchWord) {
                 // https://github.com/grantcurell/narjetas/issues/8
                 reject("There was an error.");
             }
-        }), randomNumber(10, 11));
+        }), randomNumber(2000, 5000));
     });
 
     return responsePromise;

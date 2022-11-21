@@ -104,7 +104,7 @@ app.get('/geturl/:url', function(req, res) {
     console.info(`INFO: Processing a request for a URL for ${req.params.url}`);
     let driver = new Builder()
     .forBrowser('firefox')
-    .setFirefoxService(host = '::1')
+    .setFirefoxService(new firefox.ServiceBuilder('/opt/narjetas/backend/geckodriver').host = '::1' )
     .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -127,7 +127,7 @@ app.get('/geturlwithclass/:url/:class', function(req, res) {
     looking for class ${req.params.class}`);
     let driver = new Builder()
     .forBrowser('firefox')
-    .setFirefoxService(host = '::1')
+    .setFirefoxService(new firefox.ServiceBuilder('/opt/narjetas/backend/geckodriver').host = '::1' )
     .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -151,7 +151,7 @@ app.get('/geturlwithid/:url/:id', function(req, res) {
 
     let driver = new Builder()
     .forBrowser('firefox')
-    .setFirefoxService(host = '::1')
+    .setFirefoxService(new firefox.ServiceBuilder('/opt/narjetas/backend/geckodriver').host = '::1' )
     .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -175,7 +175,7 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
     let driver = new Builder()
     .forBrowser('firefox')
     .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
-    .setFirefoxService(host = '::1')
+    .setFirefoxService(new firefox.ServiceBuilder('/opt/narjetas/backend/geckodriver').host = '::1' )
     .build();
 
     if (req.params.type === "conjugation") {

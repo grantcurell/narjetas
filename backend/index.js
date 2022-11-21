@@ -104,9 +104,7 @@ app.get('/geturl/:url', function(req, res) {
     console.info(`INFO: Processing a request for a URL for ${req.params.url}`);
     let driver = new Builder()
     .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().headless()
-    .addArguments('--disable-dev-shm-usage')
-    .addArguments('--no-sandbox'))
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -129,9 +127,7 @@ app.get('/geturlwithclass/:url/:class', function(req, res) {
     looking for class ${req.params.class}`);
     let driver = new Builder()
     .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().headless()
-    .addArguments('--disable-dev-shm-usage')
-    .addArguments('--no-sandbox'))
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -155,9 +151,7 @@ app.get('/geturlwithid/:url/:id', function(req, res) {
 
     let driver = new Builder()
     .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().headless()
-    .addArguments('--disable-dev-shm-usage')
-    .addArguments('--no-sandbox'))
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 
@@ -179,9 +173,7 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
     console.info(`INFO: Processing a request for ordbokene for word ${req.params.searchWord}`)
     let driver = new Builder()
     .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().headless()
-    .addArguments('--disable-dev-shm-usage')
-    .addArguments('--no-sandbox'))
+    .setChromeOptions(new chrome.Options().headless().windowSize(screen))
     .setFirefoxOptions(new firefox.Options().headless().windowSize(screen))
     .build();
 

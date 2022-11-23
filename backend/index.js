@@ -121,7 +121,7 @@ app.get('/geturl/:url', function(req, res) {
         console.error(`A critical error was thrown while processing 
         ${req.params.url}. Error was ${error}`);
         res.send('');
-    });;
+    });
 
 })
 
@@ -148,7 +148,7 @@ app.get('/geturlwithclass/:url/:class', function(req, res) {
         console.error(`A critical error was thrown while processing 
         ${req.params.url}. Error was ${error}`);
         res.send('');
-    });;
+    });
 
 })
 
@@ -176,7 +176,7 @@ app.get('/geturlwithid/:url/:id', function(req, res) {
         console.error(`A critical error was thrown while processing 
         ${req.params.url}. Error was ${error}`);
         res.send('');
-    });;
+    });
 
 })
 
@@ -218,7 +218,7 @@ app.get('/getordbokene/:searchWord/:type', function(req, res) {
             console.error(`A critical error was thrown while processing 
             ${req.params.searchWord}. Error was ${error}`);
             res.send('');
-        });;
+        });
     } else {
         Ordbokene.getOrdbokeneDefs(driver, req.params.searchWord).then(html => {
             res.send(html);
